@@ -47,11 +47,27 @@
    45 - [x] Set Permalinks in WordPress
    46 - [x] Create Pillar GitHub Repo: `acmemarketing.us`
    47 - [x] Create `GEMINI_PLAN.md`
-   48 - [ ] Create Vercel Account and connect to GitHub
-   49 - [ ] Develop initial Astro frontend for `acmemarketing.us`
-   50 - [ ] Point `acmemarketing.us` domain to Vercel
-   51 - [ ] Create remaining 6 GitHub repositories
-   52 - [ ] Replicate Astro setup for all Niche sites
+   48 - [x] Create Netlify Account and connect to GitHub
+   49 - [x] Develop initial Astro frontend for `acmemarketing.us`
+   50 - [x] Point `acmemarketing.us` domain to Netlify
+   51 - [x] Create GitHub Repo: `bemorefree.com`
+   52 - [x] Create GitHub Repo: `bamteamservices.com`
+   53 - [x] Create GitHub Repo: `disendarkenment.com`
+   54 - [x] Create GitHub Repo: `mindlooker.com`
+   55 - [x] Create GitHub Repo: `ketohouse.com`
+   56 - [x] Create GitHub Repo: `healthcareactivist.org`
+   57 - [x] Replicate Astro setup for `bemorefree.com`
+   58 - [x] Replicate Astro setup for `bamteamservices.com`
+   59 - [x] Replicate Astro setup for `disendarkenment.com`
+   60 - [x] Replicate Astro setup for `mindlooker.com`
+   61 - [x] Replicate Astro setup for `ketohouse.com`
+   62 - [x] Replicate Astro setup for `healthcareactivist.org`
+   63 - [x] Point `bemorefree.com` domain to Netlify
+   64 - [x] Point `bamteamservices.com` domain to Netlify
+   65 - [x] Point `disendarkenment.com` domain to Netlify
+   66 - [x] Point `mindlooker.com` domain to Netlify
+   67 - [x] Point `ketohouse.com` domain to Netlify
+   68 - [x] Point `healthcareactivist.org` domain to Netlify
    53 
    54 ### Phase 2: Content & Automation
    55 
