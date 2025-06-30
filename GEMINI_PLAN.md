@@ -48,6 +48,7 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 - [x] Create Netlify Account and connect to GitHub
 - [x] Develop initial Astro frontend for `acmemarketing.us`
 - [x] Integrate WordPress GraphQL API into `acmemarketing.us`
+- [x] Added `netlify.toml` for explicit build configuration to `acmemarketing.us`
 - [x] Point `acmemarketing.us` domain to Netlify
 - [x] Create GitHub Repo: `bemorefree.com`
 - [x] Create GitHub Repo: `bamteamservices.com`
