@@ -84,13 +84,7 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 - [x] n8n instance running at `https://n8n.srv874889.hstgr.cloud/`
 - [x] WordPress webhook successfully posting to n8n
 - [x] Developed n8n workflow for automated Netlify deployments
-- [x] Added basic layout and global styling to `acmemarketing.us`
-- [x] Added basic layout and global styling to `bemorefree.com`
-- [x] Added basic layout and global styling to `bamteamservices.com`
-- [x] Added basic layout and global styling to `disendarkenment.com`
-- [x] Added basic layout and global styling to `mindlooker.com`
-- [x] Added basic layout and global styling to `ketohouse.com`
-- [x] Added basic layout and global styling to `healthcareactivist.org`
+- [x] Added basic layout and global styling to all sites
 - [ ] Develop n8n workflow for automated social sharing
 - [ ] Begin content creation based on the "Create Once, Repurpose Everywhere" model.
 
