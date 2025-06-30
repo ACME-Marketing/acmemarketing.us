@@ -1,0 +1,763 @@
+{
+  "name": "WP 2 Netlify",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "0d36a8db-0177-4501-9f7a-e46b6829d07a",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        -200,
+        980
+      ],
+      "typeVersion": 1,
+      "webhookId": "0d36a8db-0177-4501-9f7a-e46b6829d07a",
+      "id": "a11b4a4e-fe28-4983-aebe-110b7dbb052b"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8dd2254f-0a2b-4f76-9465-5a1fa0f5bf46",
+              "name": "body.url",
+              "value": "={{ $json.body.url }}",
+              "type": "string"
+            },
+            {
+              "id": "dbdc52f4-7992-4692-b39e-641dc0dc5274",
+              "name": "body.post_title",
+              "value": "={{ $json.body.title }}",
+              "type": "string"
+            },
+            {
+              "id": "822e6cfa-c953-4967-a061-60e6a01446b3",
+              "name": "body.post_status",
+              "value": "={{ $json.body.status }}",
+              "type": "string"
+            },
+            {
+              "id": "2a8fb564-33df-4dc2-9c3f-419628fa5fd8",
+              "name": "body.date",
+              "value": "={{ $json.body.date }}",
+              "type": "string"
+            },
+            {
+              "id": "8e5a170f-190e-46d5-a19c-4220c68561a3",
+              "name": "body.categories",
+              "value": "={{ $json.body.categories }}",
+              "type": "string"
+            },
+            {
+              "id": "ee0ed094-84ea-42a7-a60b-70b80bc5424c",
+              "name": "body.tags",
+              "value": "={{ $json.body.tags }}",
+              "type": "string"
+            },
+            {
+              "id": "e08bffe7-93b2-4318-bad4-3d879501cd80",
+              "name": "body.categories[0]",
+              "value": "={{ $json.body.categories[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "5680a99b-bbb4-41cb-95a8-f03fb800223b",
+              "name": "body.categories[1]",
+              "value": "={{ $json.body.categories[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "ba3581aa-43b7-4a83-a7b9-3f53af3463f4",
+              "name": "body.categories[2]",
+              "value": "={{ $json.body.categories[2] }}",
+              "type": "string"
+            },
+            {
+              "id": "a6a613b2-75b9-4ec3-8f46-90e581751c17",
+              "name": "body.categories[3]",
+              "value": "={{ $json.body.categories[3] }}",
+              "type": "string"
+            },
+            {
+              "id": "8cd5cb68-6591-4541-9107-46c1b4498587",
+              "name": "body.categories[4]",
+              "value": "={{ $json.body.categories[4] }}",
+              "type": "string"
+            },
+            {
+              "id": "46cd056d-28c8-4a8e-8d51-379d41e44611",
+              "name": "body.categories[5]",
+              "value": "={{ $json.body.categories[5] }}",
+              "type": "string"
+            },
+            {
+              "id": "6861789c-0442-4b55-ab50-aefb2bc5e36a",
+              "name": "body.categories[6]",
+              "value": "={{ $json.body.categories[6] }}",
+              "type": "string"
+            },
+            {
+              "id": "957e06e7-95b3-4285-bf45-80e7fc4e68e2",
+              "name": "body.categories[7]",
+              "value": "={{ $json.body.categories[7] }}",
+              "type": "string"
+            },
+            {
+              "id": "42386674-3baf-4f8d-ba64-33b40f9afd00",
+              "name": "body.categories[8]",
+              "value": "={{ $json.body.categories[8] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set Payload",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -40,
+        980
+      ],
+      "typeVersion": 3.4,
+      "id": "88853f72-ae5a-45f6-a185-c94abe28674f"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const categoryToSiteId ={\n  acmemarketing: '6bb18d2e-7d25-48ec-8f7e-5e5e96295c81',\n  all: 'site-id-all',\n  bamteam: 'b2478c83-d6ce-4877-827f-c5e27334806e',\n  bemorefree: '5d640d52-47c0-4d28-afa9-1600ca359607',\n  disendarkenment: '03ee8c56-21ba-4a0b-b43e-869fdb9b37dc',\n  healthcareactivist: '215a2614-5455-4f96-b816-1abf1efe1ce6',\n  ketohouse: 'dbd2ab8c-e68f-4fd6-83d7-83088d404777',\n  mindlooker: '2511e942-def7-499e-b907-e852322ffb59',\n  // Add more mappings as needed\n};\n\nconst categories = categoryToSiteId || [];\nlet siteIds = [];\n\nif (categories.all {\n  // If 'all' is present, trigger all sites\n  siteIds = Object.values(categoryToSiteId);\n} else {\n  // Otherwise, map categories to site IDs\n  siteIds = categories\n    .map(cat => categoryToSiteId[cat])\n    .filter(Boolean); // Remove undefined entries\n}\n\nreturn siteIds.map(siteId => ({ json: { siteId } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        1940
+      ],
+      "id": "4cc6807e-f274-4c28-bcae-d1c6786d20e2",
+      "name": "Code",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "acmemarketing",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        160
+      ],
+      "id": "a5695926-18f2-4f92-9def-c1696710dbf7",
+      "name": "ACME Marketing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "acmemarketing",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {
+          "ignoreCase": false
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        -20
+      ],
+      "id": "384fe4c6-9a0d-476b-9776-6d1e095c8484",
+      "name": "ALL"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "bamteam",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        360
+      ],
+      "id": "927b2e54-f599-4048-95bf-ce5c23430311",
+      "name": "BAM Team"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "bemorefree",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        580
+      ],
+      "id": "bf37da56-2451-41d0-a491-a6d566f78ae8",
+      "name": "BeMoreFree"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "disendarkenment",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        800
+      ],
+      "id": "ff3f5ecd-1d38-4648-9f85-8d962572b3f0",
+      "name": "Disendarkenment"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "healthcareactivist",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        1040
+      ],
+      "id": "81b19b34-b6f2-4184-b01c-22762f40cfb0",
+      "name": "Healthcare Activist"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "ketohouse",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        1260
+      ],
+      "id": "458c2e92-1981-421f-abf6-5973d84454c1",
+      "name": "KetoHouse"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "77e5c10f-3fd2-41c4-9503-5a7ba08ecbff",
+              "leftValue": "={{ $(\'Set Payload\').item.json.body.categories }}",
+              "rightValue": "mindlooker",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        300,
+        1480
+      ],
+      "id": "6bafed4c-efac-45a8-a067-c6eb241cecc4",
+      "name": "MindLooker"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "siteId": "6bb18d2e-7d25-48ec-8f7e-5e5e96295c81",
+        "additionalFields": {
+          "title": "={{ $(\'Webhook\').item.json.body.url }}"
+        }
+      },
+      "name": "ACMEMarketing",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        580,
+        120
+      ],
+      "typeVersion": 1,
+      "id": "6797d5d6-a167-408e-9e6f-63b7cf8742b4",
+      "credentials": {
+        "netlifyApi": {
+          "id": "arzZQw680PKpOfju",
+          "name": "Netlify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "siteId": "b2478c83-d6ce-4877-827f-c5e27334806e",
+        "additionalFields": {}
+      },
+      "name": "BAMTeam",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        580,
+        280
+      ],
+      "typeVersion": 1,
+      "id": "72a3b365-da81-4d1d-99a3-fe4487f8b79b",
+      "credentials": {
+        "netlifyApi": {
+          "id": "arzZQw680PKpOfju",
+          "name": "Netlify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "siteId": "5d640d52-47c0-4d28-afa9-1600ca359607",
+        "additionalFields": {}
+      },
+      "name": "Be More Free",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        580,
+        580
+      ],
+      "typeVersion": 1,
+      "id": "b2f0e230-198e-42d7-8818-862c8911df3c",
+      "credentials": {
+        "netlifyApi": {
+          "id": "arzZQw680PKpOfju",
+          "name": "Netlify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "siteId": "2511e942-def7-499e-b907-e852322ffb59",
+        "additionalFields": {}
+      },
+      "name": "Mind Looker",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        600,
+        1460
+      ],
+      "typeVersion": 1,
+      "id": "4da9aa34-4ed5-4f5f-9e7d-6d673b44abe4",
+      "credentials": {
+        "netlifyApi": {
+          "id": "arzZQw680PKpOfju",
+          "name": "Netlify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "siteId": "03ee8c56-21ba-4a0b-b43e-869fdb9b37dc",
+        "additionalFields": {}
+      },
+      "name": "DisenDarkenment",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        580,
+        780
+      ],
+      "typeVersion": 1,
+      "id": "77857e24-2e11-4b68-b6c6-4e95d3970047",
+      "credentials": {
+        "netlifyApi": {
+          "id": "arzZQw680PKpOfju",
+          "name": "Netlify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "siteId": "dbd2ab8c-e68f-4fd6-83d7-83088d404777",
+        "additionalFields": {}
+      },
+      "name": "Keto House",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        600,
+        1220
+      ],
+      "typeVersion": 1,
+      "id": "18d8f7fa-15a3-4ab0-b452-9393573fa75d",
+      "credentials": {
+        "netlifyApi": {
+          "id": "arzZQw680PKpOfju",
+          "name": "Netlify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "siteId": "215a2614-5455-4f96-b816-1abf1efe1ce6",
+        "additionalFields": {}
+      },
+      "name": "HealthcareActivist",
+      "type": "n8n-nodes-base.netlify",
+      "position": [
+        600,
+        1020
+      ],
+      "typeVersion": 1,
+      "id": "a4361c64-1470-41ef-8ec2-a87422bf1e51",
+      "credentials": {
+        "netlifyApi": {
+          "id": "arzZQw680PKpOfju",
+          "name": "Netlify account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Payload": {
+      "main": [
+        [
+          {
+            "node": "ACME Marketing",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "ALL",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BAM Team",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BeMoreFree",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Disendarkenment",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Healthcare Activist",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "KetoHouse",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MindLooker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        []
+      ]
+    },
+    "ACME Marketing": {
+      "main": [
+        [
+          {
+            "node": "ACMEMarketing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ALL": {
+      "main": [
+        [
+          {
+            "node": "ACMEMarketing",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BAMTeam",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Be More Free",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "DisenDarkenment",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Keto House",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Mind Looker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BAM Team": {
+      "main": [
+        [
+          {
+            "node": "BAMTeam",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BeMoreFree": {
+      "main": [
+        [
+          {
+            "node": "Be More Free",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disendarkenment": {
+      "main": [
+        [
+          {
+            "node": "DisenDarkenment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Healthcare Activist": {
+      "main": [
+        [
+          {
+            "node": "HealthcareActivist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "KetoHouse": {
+      "main": [
+        [
+          {
+            "node": "Keto House",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MindLooker": {
+      "main": [
+        [
+          {
+            "node": "Mind Looker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ACMEMarketing": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timezone": "America/New_York",
+    "executionTimeout": -1
+  },
+  "versionId": "7faeee8f-50ac-405f-b6c3-f7f9dce02617",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fe4de67f0b71a5cd1dc76320b32544546f997482ff89f481e18d5a5b96ef6fad"
+  },
+  "id": "O2iLzzSaFEzS1Qs2",
+  "tags": []
+}
