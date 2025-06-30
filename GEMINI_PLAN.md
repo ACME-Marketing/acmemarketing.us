@@ -49,6 +49,7 @@
    47 - [x] Create `GEMINI_PLAN.md`
    48 - [x] Create Netlify Account and connect to GitHub
    49 - [x] Develop initial Astro frontend for `acmemarketing.us`
+   50 - [x] Integrate WordPress GraphQL API into `acmemarketing.us`
    50 - [x] Point `acmemarketing.us` domain to Netlify
    51 - [x] Create GitHub Repo: `bemorefree.com`
    52 - [x] Create GitHub Repo: `bamteamservices.com`
@@ -57,11 +58,17 @@
    55 - [x] Create GitHub Repo: `ketohouse.com`
    56 - [x] Create GitHub Repo: `healthcareactivist.org`
    57 - [x] Replicate Astro setup for `bemorefree.com`
+   58 - [x] Integrate WordPress GraphQL API into `bemorefree.com`
    58 - [x] Replicate Astro setup for `bamteamservices.com`
+   59 - [x] Integrate WordPress GraphQL API into `bamteamservices.com`
    59 - [x] Replicate Astro setup for `disendarkenment.com`
+   60 - [x] Integrate WordPress GraphQL API into `disendarkenment.com`
    60 - [x] Replicate Astro setup for `mindlooker.com`
+   61 - [x] Integrate WordPress GraphQL API into `mindlooker.com`
    61 - [x] Replicate Astro setup for `ketohouse.com`
+   62 - [x] Integrate WordPress GraphQL API into `ketohouse.com`
    62 - [x] Replicate Astro setup for `healthcareactivist.org`
+   63 - [x] Integrate WordPress GraphQL API into `healthcareactivist.org`
    63 - [x] Point `bemorefree.com` domain to Netlify
    64 - [x] Point `bamteamservices.com` domain to Netlify
    65 - [x] Point `disendarkenment.com` domain to Netlify
