@@ -3,7 +3,7 @@ import { graphQLClient, gql } from '../lib/graphql';
 
 const GET_POSTS = gql`
   query GetPosts {
-    posts {
+    posts(where: { categoryNameIn: ["acme-marketing", "all"] }) {
       nodes {
         title
         uri
