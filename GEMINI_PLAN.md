@@ -68,6 +68,8 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 - [x] Integrate WordPress GraphQL API into `ketohouse.com`
 - [x] Replicate Astro setup for `healthcareactivist.org`
 - [x] Integrate WordPress GraphQL API into `healthcareactivist.org`
+- [x] Replicate Astro setup for all Niche sites
+- [x] Integrate WordPress GraphQL API into all Niche sites
 - [x] Point `bemorefree.com` domain to Netlify
 - [x] Point `bamteamservices.com` domain to Netlify
 - [x] Point `disendarkenment.com` domain to Netlify
@@ -78,7 +80,10 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 ### Phase 2: Content & Automation (In Progress)
 
 - [x] Verified WordPress content push (successful on `bemorefree.com`)
-- [ ] Develop n8n workflow for content repurposing
+- [x] Created categories in WordPress for each niche site
+- [x] n8n instance running at `https://n8n.srv874889.hstgr.cloud/`
+- [x] WordPress webhook successfully posting to n8n
+- [x] Developed n8n workflow for automated Netlify deployments
 - [ ] Develop n8n workflow for automated social sharing
 - [ ] Begin content creation based on the "Create Once, Repurpose Everywhere" model.
 
