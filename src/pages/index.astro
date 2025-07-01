@@ -4,7 +4,7 @@ import { graphQLClient, gql } from '../lib/graphql';
 
 const GET_POSTS = gql`
   query GetPosts {
-    posts(where: { categoryNameIn: ["acme-marketing", "all"] }) {
+    posts(where: { categoryNameIn: ["acmemarketing", "all"] }) {
       nodes {
         title
         uri
@@ -27,9 +27,9 @@ try {
 }
 ---
 
-<BaseLayout title="ACME Marketing - Blog">
+<BaseLayout title="ACME Marketing">
 	<header>
-		<h1>Welcome to ACME Marketing Blog</h1>
+		<h1>Welcome to ACME Marketing</h1>
 	</header>
 
 	<main class="container">
