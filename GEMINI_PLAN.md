@@ -24,7 +24,7 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 - **Content Backend:** Headless WordPress
 - **Frontend Framework:** Astro (Static Site Generator)
 - **Deployment & Hosting:** Netlify
-- **Code Repository:** GitHub (ACME-Marketing Organization)
+- **Code Repository:** GitHub (ACME-Marketing Organization) - Local path: `/Users/waynesheppard/Development/ACME-Marketing/`
 - **Automation Hub:** n8n
 
 ## 3. Credentials & URLs
@@ -85,6 +85,7 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 - [x] WordPress webhook successfully posting to n8n
 - [x] Developed n8n workflow for automated Netlify deployments
 - [x] Added basic layout and global styling to all sites
+  - [ ] Troubleshooting: Styling not fully visible on live sites; `global.css` and `index.astro` updated and pushed, local cache cleared, dependencies reinstalled. Still investigating why changes are not rendering as expected.
 - [ ] Develop n8n workflow for automated social sharing
 - [ ] Begin content creation based on the "Create Once, Repurpose Everywhere" model.
 
