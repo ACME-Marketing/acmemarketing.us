@@ -71,6 +71,8 @@ const { title } = Astro.props;
 			</div>
 		</footer>
 	<script>
+			// Force a re-render to bust cache
+			console.log("BaseLayout script loaded.");
 			const ctaButton = document.getElementById('open-ebook-modal');
 			const modal = document.getElementById('lead-form-modal');
 			const closeModalButton = document.getElementById('close-modal');
