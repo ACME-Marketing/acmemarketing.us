@@ -102,7 +102,7 @@ const sidebarPosts = allPosts.filter(p => p.uri !== uri).slice(0, 5); // Get 5 o
             alt={post.featuredImage.node.altText || post.title} 
             width={post.featuredImage.node.mediaDetails.width} 
             height={post.featuredImage.node.mediaDetails.height} 
-            class="w-full h-64 object-cover rounded-md mb-6"
+            class="w-full max-h-96 object-cover rounded-md mb-6"
           />
         )}
         <div class="prose max-w-none" set:html={post.content} />
