@@ -66,7 +66,7 @@ try {
 							{post.tags && post.tags.nodes.length > 0 && (
 								<p class="text-gray-600 text-sm mb-4">Tags: {post.tags.nodes.map(tag => tag.name).join(', ')}</p>
 							)}
-							<div class="text-gray-700 text-base mb-5 flex-grow" set:html={post.content.substring(0, 180) + '...'} />
+							<div class="text-gray-700 text-base mb-5" set:html={post.content.substring(0, 180) + '...'} />
 							<a href={`/posts/${post.uri}`} class="mt-auto block w-full bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 text-center">Read More</a>
 						</div>
 					</div>
