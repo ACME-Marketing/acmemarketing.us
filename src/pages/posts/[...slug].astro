@@ -52,6 +52,7 @@ let allPosts = [];
 try {
   const data = await graphQLClient.request(GET_SINGLE_POST, { uri });
   post = data.postBy;
+  console.log("Fetched single post:", post);
 
   // Fetch all posts to determine previous/next and sidebar
   const GET_ALL_POSTS = gql`
@@ -73,7 +74,13 @@ try {
   const tagSlugsToFilter = [...new Set([...currentPostTags, "all"])]; // Include "all" tag
   const allPostsData = await graphQLClient.request(GET_ALL_POSTS, { tagSlugs: tagSlugsToFilter });
   allPosts = allPostsData.posts.nodes;
+  console.log("Fetched all posts for sidebar/nav:", allPosts);
 
 } catch (error) {
   console.error("Error fetching post or all posts:", error);
+}
+
+if (!post) {
+  console.error("Post not found for URI:", uri);
+  return Astro.redirect('/404'); // Redirect to a 404 page if post not found
 }
