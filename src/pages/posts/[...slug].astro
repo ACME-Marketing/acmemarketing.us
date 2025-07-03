@@ -61,3 +61,7 @@ try {
   `;
   const allPostsData = await graphQLClient.request(GET_ALL_POSTS);
   allPosts = allPostsData.posts.nodes;
+
+} catch (error) {
+  console.error("Error fetching post or all posts:", error);
+}
