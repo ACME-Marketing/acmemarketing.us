@@ -33,12 +33,7 @@ const GET_SINGLE_POST = gql`
           }
         }
       }
-      tags {
-        nodes {
-          name
-          slug
-        }
-      }
+      
     }
   }
 `;
@@ -65,14 +60,6 @@ try {
               slug
             }
           }
-        }
-      }
-    }
-  `;
-  const currentPostTags = post.tags.nodes.map(tag => tag.slug);
-  const tagSlugsToFilter = [...new Set([...currentPostTags, "all"])]; // Include "all" tag
-  const allPostsData = await graphQLClient.request(GET_ALL_POSTS, { tagSlugs: tagSlugsToFilter });
-  allPosts = allPostsData.posts.nodes;
 
 } catch (error) {
   console.error("Error fetching post or all posts:", error);

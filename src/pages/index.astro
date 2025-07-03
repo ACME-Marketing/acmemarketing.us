@@ -64,9 +64,7 @@ try {
 						<div class="p-7 flex flex-col flex-grow justify-between">
 							<div class="flex-grow">
 								<h3 class="text-2xl font-semibold mb-3 leading-tight text-gray-900 group-hover:text-blue-600 transition duration-300">{post.title}</h3>
-								{post.tags && post.tags.nodes.length > 0 && (
-									<p class="text-gray-600 text-sm mb-4">Tags: {post.tags.nodes.map(tag => tag.name).join(', ')}</p>
-								)}
+								
 								<div class="text-gray-700 text-base mb-5" set:html={post.content.substring(0, 180) + '...'} />
 							</div>
 						</div>
