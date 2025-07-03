@@ -114,26 +114,14 @@ const sidebarPosts = allPosts.filter(p => p.uri !== uri).slice(0, 5); // Get 5 o
       <div class="text-center mt-12 p-8 bg-blue-50 border-l-4 border-blue-500 rounded-lg shadow-md">
         <h3 class="text-3xl font-bold text-blue-800 mb-4">Unlock the Future of Marketing!</h3>
         <p class="text-lg text-gray-700 mb-6">Download our FREE ebook: <strong>"AI Automation: Why It's Now Table Stakes for Every Company"</strong> and discover how to stay ahead in the competitive landscape.</p>
-        <a href="#" id="open-ebook-modal" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">Download Your Free Ebook</a>
+        <a href="#" id="open-ebook-modal-post" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">Download Your Free Ebook</a>
       </div>
 
       <!-- Previous/Next Navigation -->
-      <nav class="flex justify-between mt-8">
-        {prevPost && (
-          <a href={`/posts/${prevPost.uri.replace(/\/$/, '')}`} class="flex-1 p-4 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition duration-300 mr-2 text-center relative overflow-hidden group">
-            <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <p class="relative z-10 text-sm">Previous Post</p>
-            <h3 class="relative z-10 text-lg font-semibold">{prevPost.title}</h3>
-          </a>
-        )}
-        {nextPost && (
-          <a href={`/posts/${nextPost.uri.replace(/\/$/, '')}`} class="flex-1 p-4 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition duration-300 ml-2 text-center relative overflow-hidden group">
-            <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-20 transition-opacity duration-300"></div>
-            <p class="relative z-10 text-sm">Next Post</p>
-            <h3 class="relative z-10 text-lg font-semibold">{nextPost.title}</h3>
-          </a>
-        )}
-      </nav>
+        <div class="flex justify-between mt-8">
+          {prevPost && <a href={`/posts/${prevPost.uri.replace(/^\/|\/$/g, '')}`} class="text-blue-600 hover:underline">&laquo; Previous Post</a>}
+          {nextPost && <a href={`/posts/${nextPost.uri.replace(/^\/|\/$/g, '')}`} class="text-blue-600 hover:underline ml-auto">Next Post &raquo;</a>}
+        </div>
     </main>
 
     <!-- Sidebar -->
@@ -142,7 +130,7 @@ const sidebarPosts = allPosts.filter(p => p.uri !== uri).slice(0, 5); // Get 5 o
       <ul>
         {sidebarPosts.map((p) => (
           <li class="mb-2">
-            <a href={`/posts/${p.uri.replace(/\/$/, '')}`} class="text-blue-600 hover:underline">{p.title}</a>
+            <a href={`/posts/${p.uri.replace(/^\/|\/$/g, '')}`} class="text-blue-600 hover:underline">{p.title}</a>
           </li>
         ))}
       </ul>
