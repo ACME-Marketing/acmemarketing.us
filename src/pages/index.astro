@@ -19,6 +19,12 @@ const GET_POSTS = gql`
             }
           }
         }
+      tags {
+          nodes {
+            name
+            slug
+          }
+        }
       }
     }
   }
