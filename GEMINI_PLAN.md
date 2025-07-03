@@ -85,7 +85,7 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 - [x] WordPress webhook successfully posting to n8n
 - [x] Developed n8n workflow for automated Netlify deployments
 - [x] Added basic layout and global styling to all sites
-  - [x] Troubleshooting: Styling not fully visible on live sites; `global.css` and `index.astro` updated and pushed, local cache cleared, dependencies reinstalled. (Resolved)
+- [x] Troubleshooting: Styling not fully visible on live sites; `global.css` and `index.astro` updated and pushed, local cache cleared, dependencies reinstalled. (Resolved)
 
 ### Frontend Development (acmemarketing.us)
 
