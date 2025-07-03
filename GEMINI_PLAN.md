@@ -86,6 +86,22 @@ The core strategy is a "Pillar and Niche" model to build a powerful, synergistic
 - [x] Developed n8n workflow for automated Netlify deployments
 - [x] Added basic layout and global styling to all sites
   - [x] Troubleshooting: Styling not fully visible on live sites; `global.css` and `index.astro` updated and pushed, local cache cleared, dependencies reinstalled. (Resolved)
+
+### Frontend Development (acmemarketing.us)
+
+- [x] Implement new front page design (header, hero, 2-3 column blog layout).
+- [x] Implement individual blog post pages (`/posts/[...slug].astro`) with content, featured image, previous/next navigation, and sidebar.
+- [x] Implement standard footer block.
+- [x] Create "About" page with AI-focused content, new sections, and ebook CTA.
+- [x] Implement popup form for ebook CTA (first name, last name, email fields only).
+- [x] Create "Privacy" page (EU requirements) and link in footer.
+- [x] Ensure no tags/categories/slugs are displayed on any posts or cards.
+- [x] Make entire blog post cards clickable on homepage.
+- [x] Fix "Read More" button alignment on homepage blog cards (replaced with full card clickability).
+- [x] Fix featured image sizing on individual blog post pages.
+- [x] Fix missing post text on individual blog post pages.
+- [x] Fix duplicate footer on homepage.
+
 - [ ] Develop n8n workflow for automated social sharing
 - [ ] Begin content creation based on the "Create Once, Repurpose Everywhere" model.
 
