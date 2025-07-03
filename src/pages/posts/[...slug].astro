@@ -111,6 +111,12 @@ const sidebarPosts = allPosts.filter(p => p.uri !== uri).slice(0, 5); // Get 5 o
         <div class="prose max-w-none" set:html={post.content} />
       </article>
 
+      <div class="text-center mt-12 p-8 bg-blue-50 border-l-4 border-blue-500 rounded-lg shadow-md">
+        <h3 class="text-3xl font-bold text-blue-800 mb-4">Unlock the Future of Marketing!</h3>
+        <p class="text-lg text-gray-700 mb-6">Download our FREE ebook: <strong>"AI Automation: Why It's Now Table Stakes for Every Company"</strong> and discover how to stay ahead in the competitive landscape.</p>
+        <a href="#" id="open-ebook-modal" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">Download Your Free Ebook</a>
+      </div>
+
       <!-- Previous/Next Navigation -->
       <nav class="flex justify-between mt-8">
         {prevPost && (
@@ -140,6 +146,12 @@ const sidebarPosts = allPosts.filter(p => p.uri !== uri).slice(0, 5); // Get 5 o
           </li>
         ))}
       </ul>
+
+      <div class="mt-8 p-6 bg-blue-50 border-l-4 border-blue-500 rounded-lg shadow-md hidden lg:block">
+        <h4 class="text-xl font-bold text-blue-800 mb-3">Get Your Free Ebook!</h4>
+        <p class="text-sm text-gray-700 mb-4">Discover why AI automation is now table stakes for every company.</p>
+        <a href="#" id="open-ebook-modal-sidebar" class="inline-block bg-blue-600 text-white font-bold py-2 px-5 rounded-full text-sm hover:bg-blue-700 transition duration-300">Download Now</a>
+      </div>
     </aside>
   </div>
 </BaseLayout>

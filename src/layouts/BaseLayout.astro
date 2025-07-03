@@ -71,45 +71,54 @@ const { title } = Astro.props;
 			</div>
 		</footer>
 	<script>
-			// Force a re-render to bust cache
-			console.log("BaseLayout script loaded.");
-			const ctaButton = document.getElementById('open-ebook-modal');
-			const modal = document.getElementById('lead-form-modal');
-			const closeModalButton = document.getElementById('close-modal');
-			const pageOfClickInput = document.getElementById('page-of-click');
+// Force a re-render to bust cache
+console.log("BaseLayout script loaded.");
+const ctaButton = document.getElementById('open-ebook-modal');
+const ctaSidebarButton = document.getElementById('open-ebook-modal-sidebar'); // Added this line
+const modal = document.getElementById('lead-form-modal');
+const closeModalButton = document.getElementById('close-modal');
+const pageOfClickInput = document.getElementById('page-of-click');
 
-			// Function to show the modal
-			function showModal() {
-				modal.classList.remove('hidden');
-				modal.classList.add('flex');
-				document.body.style.overflow = 'hidden'; // Prevent scrolling
-				pageOfClickInput.value = window.location.href; // Set page of click
-			}
+// Function to show the modal
+function showModal() {
+modal.classList.remove('hidden');
+modal.classList.add('flex');
+document.body.style.overflow = 'hidden'; // Prevent scrolling
+pageOfClickInput.value = window.location.href; // Set page of click
+}
 
-			// Function to hide the modal
-			function hideModal() {
-				modal.classList.add('hidden');
-				modal.classList.remove('flex');
-				document.body.style.overflow = ''; // Restore scrolling
-			}
+// Function to hide the modal
+function hideModal() {
+modal.classList.add('hidden');
+modal.classList.remove('flex');
+document.body.style.overflow = ''; // Restore scrolling
+}
 
-			// Event listener for CTA button click
-			if (ctaButton) {
-				ctaButton.addEventListener('click', (e) => {
-					e.preventDefault(); // Prevent default link behavior
-					showModal();
-				});
-			}
+// Event listener for CTA button click
+if (ctaButton) {
+ctaButton.addEventListener('click', (e) => {
+e.preventDefault(); // Prevent default link behavior
+showModal();
+});
+}
 
-			// Event listener for close button click
-			closeModalButton.addEventListener('click', hideModal);
+// Event listener for sidebar CTA button click // Added this block
+if (ctaSidebarButton) {
+ctaSidebarButton.addEventListener('click', (e) => {
+e.preventDefault(); // Prevent default link behavior
+showModal();
+});
+}
 
-			// Event listener for clicking outside the modal (overlay)
-			modal.addEventListener('click', (e) => {
-				if (e.target === modal) {
-					hideModal();
-				}
-			});
-		</script>
+// Event listener for close button click
+closeModalButton.addEventListener('click', hideModal);
+
+// Event listener for clicking outside the modal (overlay)
+modal.addEventListener('click', (e) => {
+if (e.target === modal) {
+hideModal();
+}
+});
+</script>
 	</body>
 </html>
