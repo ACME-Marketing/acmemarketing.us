@@ -20,7 +20,10 @@ const { title } = Astro.props;
 	<body>
 		<header class="bg-blue-800 text-white py-4 shadow-md">
 			<div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-				<h1 class="text-3xl font-extrabold mb-2 md:mb-0"><a href="/" class="hover:text-red-400">ACME Marketing</a></h1>
+				<a href="/" class="flex items-center">
+					<img src="/acmemarketing logo1.jpg" alt="ACME Marketing Logo" class="h-20 mr-3">
+					<span class="self-center text-3xl font-extrabold whitespace-nowrap text-white">ACME Marketing</span>
+				</a>
 				<nav>
 					<ul class="flex flex-wrap justify-center space-x-4 text-lg">
 						<li><a href="/" class="hover:text-red-400 transition duration-300">Home</a></li>
