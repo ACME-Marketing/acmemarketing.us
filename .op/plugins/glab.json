@@ -1,0 +1,15 @@
+{
+	"account_id": "ZOFKPQC5WVCY3P6AQL744W2L6E",
+	"entrypoint": [
+		"glab"
+	],
+	"credentials": [
+		{
+			"plugin": "gitlab",
+			"credential_type": "personal_access_token",
+			"usage_id": "personal_access_token",
+			"vault_id": "tiaeeio2k22zrtpstnt54ljoxa",
+			"item_id": "7sgoxh7jtex4lwjlv4xy7e7r6m"
+		}
+	]
+}
