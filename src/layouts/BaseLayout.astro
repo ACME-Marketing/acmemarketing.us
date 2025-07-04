@@ -147,6 +147,8 @@ const ebookBookIdInput = document.getElementById('ebook-book-id');
 const openConsultationModalButton = document.getElementById('open-consultation-modal');
 const openConsultationModalContactButton = document.getElementById('open-consultation-modal-contact');
 const openConsultationModalHeroButton = document.getElementById('open-consultation-modal-hero');
+const openConsultationModalServicesButton = document.getElementById('open-consultation-modal-services');
+const openConsultationModalServicesCtaButton = document.getElementById('open-consultation-modal-services-cta');
 const consultationModal = document.getElementById('consultation-form-modal');
 const closeConsultationModalButton = document.getElementById('close-consultation-modal');
 const consultationPageOfClickInput = document.getElementById('consultation-page-of-click');
@@ -205,6 +207,20 @@ if (openConsultationModalContactButton) {
 
 if (openConsultationModalHeroButton) {
 	openConsultationModalHeroButton.addEventListener('click', (e) => {
+		e.preventDefault();
+		showModal(consultationModal, consultationPageOfClickInput);
+	});
+}
+
+if (openConsultationModalServicesButton) {
+	openConsultationModalServicesButton.addEventListener('click', (e) => {
+		e.preventDefault();
+		showModal(consultationModal, consultationPageOfClickInput);
+	});
+}
+
+if (openConsultationModalServicesCtaButton) {
+	openConsultationModalServicesCtaButton.addEventListener('click', (e) => {
 		e.preventDefault();
 		showModal(consultationModal, consultationPageOfClickInput);
 	});
