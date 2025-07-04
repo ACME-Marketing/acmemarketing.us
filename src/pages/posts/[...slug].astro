@@ -6,6 +6,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { graphQLClient, gql } from '../../lib/graphql';
 import { getCta } from '../../lib/loadCtaData.js';
 
+// Function to process content and add target="_blank" to external links
+function processExternalLinks(content) {
+  if (!content) return content;
+  
+  // Replace external links with target="_blank" and rel="noopener noreferrer"
+  return content.replace(
+    /<a\s+href="(https?:\/\/[^"]+)"([^>]*)>/gi,
+    '<a href="$1" target="_blank" rel="noopener noreferrer"$2>'
+  );
+}
+
 export async function getStaticPaths() {
   const GET_FILTERED_POST_URIS = gql`
     query GetFilteredPostUris {
@@ -212,7 +223,7 @@ const bottomCta = getCta({ page: 'post', location: 'bottom' });
                 />
               </div>
             )}
-            <div set:html={post.content}></div>
+            <div set:html={processExternalLinks(post.content)}></div>
             {!post.content && (
               <div class="text-red-600 p-4 border border-red-400 rounded">
                 <strong>Warning:</strong> No content found for this post!
