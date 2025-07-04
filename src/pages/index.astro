@@ -41,6 +41,35 @@ try {
   const data = await graphQLClient.request(GET_POSTS)
   posts = data.posts.nodes
   console.log("Fetched posts for acmemarketing.us:", posts)
+  
+  // Debug: Log each post title and URI to check for duplicates
+  console.log("Post details:")
+  posts.forEach((post, index) => {
+    console.log(`${index + 1}. Title: "${post.title}" | URI: "${post.uri}"`)
+  })
+  
+  // Check for exact duplicates (same URI)
+  const uriCounts = {}
+  posts.forEach(post => {
+    uriCounts[post.uri] = (uriCounts[post.uri] || 0) + 1
+  })
+  
+  console.log("URI counts:", uriCounts)
+  
+  // Remove duplicate posts based on URI
+  const uniquePosts = posts.filter((post, index, self) => 
+    index === self.findIndex(p => p.uri === post.uri)
+  )
+  
+  if (uniquePosts.length !== posts.length) {
+    console.log(`Removed ${posts.length - uniquePosts.length} duplicate posts`)
+    console.log("Final unique posts:")
+    uniquePosts.forEach((post, index) => {
+      console.log(`${index + 1}. Title: "${post.title}" | URI: "${post.uri}"`)
+    })
+  }
+  
+  posts = uniquePosts
 } catch (error) {
   console.error("Error fetching posts:", error)
 }
@@ -52,17 +81,36 @@ const bottomCta = getCta({ page: 'home', location: 'bottom' })
 
 <BaseLayout title="ACME Marketing">
   <Hero />
-  <HomepagePosts posts={posts} />
-  <!-- Example usage for Hero CTA -->
-  <a href="#" class="cta-btn" data-cta="hero" data-ebook={heroCta['TITLE']} data-description={heroCta['DESCRIPTION']}>
-    {heroCta['BUTTON TEXT']}
-  </a>
-  <!-- Example usage for Sidebar CTA -->
-  <a href="#" class="cta-btn" data-cta="sidebar" data-ebook={sidebarCta['TITLE']} data-description={sidebarCta['DESCRIPTION']}>
-    {sidebarCta['BUTTON TEXT']}
-  </a>
-  <!-- Example usage for Bottom CTA -->
-  <a href="#" class="cta-btn" data-cta="bottom" data-ebook={bottomCta['TITLE']} data-description={bottomCta['DESCRIPTION']}>
-    {bottomCta['BUTTON TEXT']}
-  </a>
+  <div class="w-full relative overflow-hidden">
+    <!-- Gradient pulse background -->
+    <div class="absolute inset-0 animate-gradient bg-gradient-to-br from-cyan-500 via-blue-700 to-fuchsia-600 opacity-15 pointer-events-none"></div>
+    <!-- Content with relative positioning to stay above wave -->
+    <div class="relative z-10">
+      <HomepagePosts posts={posts} />
+    </div>
+  </div>
+  <!-- Bottom CTA Section -->
+  <section class="w-full flex justify-center mt-16 mb-0">
+    <div class="max-w-2xl w-full bg-gradient-to-br from-cyan-500 to-blue-700 text-white rounded-3xl shadow-2xl p-10 flex flex-col items-center gap-4 border-2 border-blue-200">
+      <h3 class="text-3xl font-bold mb-2 text-center">{bottomCta['TITLE']}</h3>
+      <p class="text-lg mb-4 text-center">{bottomCta['DESCRIPTION']}</p>
+      <a href="#" id="open-ebook-modal-bottom" class="inline-block bg-white text-blue-800 font-bold py-3 px-8 rounded-full text-lg hover:bg-gray-100 transition transform hover:scale-105 shadow" data-book-id={bottomCta['BOOK ID']}>
+        {bottomCta['BUTTON TEXT']}
+      </a>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 8s ease-in-out infinite;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+  }
+</style>

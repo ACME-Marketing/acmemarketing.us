@@ -1,6 +1,23 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { graphQLClient, gql } from '../../lib/graphql';
+import { getCta } from '../../lib/loadCtaData.js';
+
+interface Post {
+  title: string;
+  uri: string;
+  content: string;
+  featuredImage?: {
+    node?: {
+      sourceUrl?: string;
+      altText?: string;
+      mediaDetails?: {
+        width?: number;
+        height?: number;
+      };
+    };
+  };
+}
 
 const GET_POSTS = gql`
   query GetPosts {
@@ -24,36 +41,203 @@ const GET_POSTS = gql`
   }
 `;
 
-let posts = [];
+let posts: Post[] = [];
 try {
-  const data = await graphQLClient.request(GET_POSTS);
+  const data = await graphQLClient.request(GET_POSTS) as { posts: { nodes: Post[] } };
   posts = data.posts.nodes;
 } catch (error) {
   console.error("Error fetching posts:", error);
 }
+
+const heroCta = getCta({ page: 'post', location: 'hero' });
+const sidebarCta = getCta({ page: 'post', location: 'sidebar' });
+const bottomCta = getCta({ page: 'post', location: 'bottom' });
+const sidebarPosts = posts.slice(0, 5);
 ---
 
 <BaseLayout title="Blog - ACME Marketing">
-	<main class="container mx-auto px-4 py-12">
-		<h1 class="text-4xl font-extrabold text-center mb-12 text-gray-900">Latest Insights</h1>
-		{posts.length > 0 ? (
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				{posts.map((post) => (
-					<a href={`/posts/${post.uri.replace(/^\/|\/$/g, '')}`} class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 transform hover:scale-105 transition duration-300 flex flex-col h-[550px] group">
-						{post.featuredImage && post.featuredImage.node && (
-							<img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} width={post.featuredImage.node.mediaDetails.width} height={post.featuredImage.node.mediaDetails.height} class="w-full h-56 object-cover border-b border-gray-200" />
-						)}
-						<div class="p-7 flex flex-col flex-grow justify-between">
-							<div class="flex-grow">
-								<h3 class="text-2xl font-semibold mb-3 leading-tight text-gray-900 group-hover:text-blue-600 transition duration-300">{post.title}</h3>
-								<div class="text-gray-700 text-base mb-5" set:html={post.content.substring(0, 180) + '...'} />
-							</div>
-						</div>
+	<!-- HERO SECTION: AI SIZZLE -->
+	<section class="relative overflow-hidden flex flex-col justify-center items-center text-center py-8 md:py-12 px-4">
+		<div class="absolute inset-0 z-0 animate-gradient bg-gradient-to-br from-cyan-500 via-blue-700 to-fuchsia-600 opacity-90"></div>
+		<div class="relative z-10 mb-3 md:mb-4 flex justify-center">
+			<svg class="w-12 h-12 md:w-16 md:h-16" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<circle cx="40" cy="40" r="32" fill="#fff" fill-opacity="0.08" stroke="#22d3ee" stroke-width="2"/>
+				<circle cx="40" cy="40" r="38" stroke="#22d3ee" stroke-width="1" fill="none"/>
+				<line x1="40" y1="18" x2="40" y2="62" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+				<line x1="18" y1="40" x2="62" y2="40" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+				<line x1="40" y1="10" x2="40" y2="18" stroke="#22d3ee" stroke-width="1.5"/>
+				<line x1="40" y1="62" x2="40" y2="70" stroke="#22d3ee" stroke-width="1.5"/>
+				<line x1="10" y1="40" x2="18" y2="40" stroke="#22d3ee" stroke-width="1.5"/>
+				<line x1="62" y1="40" x2="70" y2="40" stroke="#22d3ee" stroke-width="1.5"/>
+			</svg>
+		</div>
+		<h1 class="relative z-10 text-2xl md:text-3xl lg:text-4xl font-extrabold text-white leading-tight break-words whitespace-normal max-w-3xl mb-4 md:mb-6 mt-2" style="word-break: break-word;">
+			Latest Insights
+		</h1>
+		<div class="h-2 md:h-3"></div>
+		<a href="#" id="open-ebook-modal-post" class="relative z-10 inline-block bg-white text-blue-800 font-bold py-2 md:py-2 px-5 md:px-6 rounded-full text-sm md:text-base hover:bg-gray-100 transition transform hover:scale-105 shadow mb-2 md:mb-3" data-book-id={heroCta['BOOK ID']}>
+			{heroCta['BUTTON TEXT']}
+		</a>
+		<div class="relative z-10 text-white/80 text-xs md:text-sm font-semibold mt-1 md:mt-2">
+			{heroCta['DESCRIPTION']}
+		</div>
+	</section>
+
+	<style>
+		@keyframes gradient {
+			0% { background-position: 0% 50%; }
+			50% { background-position: 100% 50%; }
+			100% { background-position: 0% 50%; }
+		}
+		.animate-gradient {
+			background-size: 200% 200%;
+			animation: gradient 8s ease-in-out infinite;
+			animation-fill-mode: both;
+			animation-iteration-count: infinite;
+		}
+		@keyframes typewriter {
+			from { width: 0; }
+			to { width: 100%; }
+		}
+		.animate-typewriter {
+			display: inline-block;
+			overflow: hidden;
+			white-space: nowrap;
+			border-right: 2px solid #fff;
+			width: 0;
+			animation: typewriter 2.5s steps(40, end) 0.5s 1 normal both;
+		}
+		@keyframes fadein {
+			from { opacity: 0; transform: translateY(20px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		.animate-fadein {
+			animation: fadein 1.2s 1.5s both;
+		}
+		@keyframes ai-pulse {
+			0%, 100% { filter: drop-shadow(0 0 0px #fff); }
+			50% { filter: drop-shadow(0 0 16px #fff); }
+		}
+		.animate-ai-pulse {
+			animation: ai-pulse 2.5s infinite;
+		}
+		@keyframes spin-slow {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+		.animate-spin-slow {
+			transform-origin: 40px 40px;
+			animation: spin-slow 8s linear infinite;
+		}
+		@keyframes cta-pulse {
+			0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
+			50% { box-shadow: 0 0 0 12px rgba(59,130,246,0.1); }
+		}
+		.animate-cta-pulse {
+			animation: cta-pulse 2.2s infinite;
+		}
+	</style>
+
+	<div class="w-full py-16 relative overflow-hidden">
+		<!-- Gradient pulse background -->
+		<div class="absolute inset-0 animate-gradient bg-gradient-to-br from-cyan-500 via-blue-700 to-fuchsia-600 opacity-15 pointer-events-none"></div>
+		<!-- Content with relative positioning to stay above wave -->
+		<div class="container mx-auto px-4 flex flex-col lg:flex-row gap-12 relative z-10">
+			<main class="lg:w-3/4">
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+					{posts.length > 0 ? (
+						posts.map((post) => (
+							<a
+								href={`/posts/${post.uri.replace(/^\/|\/$/g, '')}`}
+								class={`bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 transform hover:scale-105 transition duration-300 flex flex-col ${post.featuredImage?.node?.sourceUrl ? 'h-[650px]' : 'h-[550px]'} group`}
+							>
+								{post.featuredImage?.node?.sourceUrl && (
+									<img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} width={post.featuredImage.node.mediaDetails?.width || 600} height={post.featuredImage.node.mediaDetails?.height || 400} class="w-full h-56 object-cover border-b border-gray-200" />
+								)}
+								<div class="p-7 flex flex-col flex-grow justify-between">
+									<div class="flex-grow">
+										<h3 class="text-2xl font-semibold mb-3 leading-tight text-gray-900 group-hover:text-blue-600 transition duration-300">{post.title}</h3>
+										<div class="text-gray-700 text-base mb-5">
+											{post.content
+												.replace(/<[^>]*>/g, '') // Remove HTML tags
+												.replace(/&[#\w]+;/g, (match) => { // Decode HTML entities
+													const entities = {
+														'&#8217;': "'",
+														'&#8216;': "'",
+														'&#8220;': '"',
+														'&#8221;': '"',
+														'&#8230;': '...',
+														'&quot;': '"',
+														'&amp;': '&',
+														'&lt;': '<',
+														'&gt;': '>',
+														'&apos;': "'",
+														'&nbsp;': ' '
+													};
+													return entities[match] || match;
+												})
+												.replace(/\n+/g, ' ') // Replace multiple newlines with single space
+												.replace(/\s+/g, ' ') // Replace multiple spaces with single space
+												.trim()
+												.substring(0, 180) + (post.content.replace(/<[^>]*>/g, '').replace(/&[#\w]+;/g, (match) => {
+													const entities = {
+														'&#8217;': "'",
+														'&#8216;': "'",
+														'&#8220;': '"',
+														'&#8221;': '"',
+														'&#8230;': '...',
+														'&quot;': '"',
+														'&amp;': '&',
+														'&lt;': '<',
+														'&gt;': '>',
+														'&apos;': "'",
+														'&nbsp;': ' '
+													};
+													return entities[match] || match;
+												}).replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim().length > 180 ? '...' : '')
+											}
+										</div>
+									</div>
+								</div>
+							</a>
+						))
+					) : (
+						<p class="text-center text-gray-600">No posts found. Please check back later.</p>
+					)}
+				</div>
+				<!-- Bottom CTA -->
+				<section class="mt-10 mb-10 rounded-2xl p-6 bg-gradient-to-br from-cyan-500 to-blue-700 text-white shadow-xl flex flex-col items-center gap-3">
+					<h3 class="text-2xl font-bold mb-1 text-center">{bottomCta['TITLE']}</h3>
+					<p class="text-base mb-3 text-center max-w-xl">{bottomCta['DESCRIPTION']}</p>
+					<a href="#" id="open-ebook-modal-post" class="inline-block bg-white text-blue-800 font-bold py-2 px-6 rounded-full text-base hover:bg-gray-100 transition transform hover:scale-105 shadow" data-book-id={bottomCta['BOOK ID']}>
+						{bottomCta['BUTTON TEXT']}
 					</a>
-				))}
-			</div>
-		) : (
-			<p class="text-center text-gray-600">No posts found. Please check back later.</p>
-		)}
-	</main>
+				</section>
+			</main>
+			<!-- Sidebar -->
+			<aside class="lg:w-1/4 space-y-8">
+				<div class="bg-white p-6 rounded-3xl shadow-xl border border-blue-100">
+					<h3 class="text-2xl font-bold mb-4 text-gray-900">Recent Posts</h3>
+					<ul class="space-y-3">
+						{sidebarPosts.map((p) => (
+							<li>
+								<a href={`/posts/${p.uri.replace(/^\/|\/$/g, '')}`} class="text-blue-600 hover:underline font-medium">
+									{p.title}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div class="bg-gradient-to-br from-cyan-100 to-blue-200 p-6 rounded-3xl border-l-4 border-blue-500 shadow-lg">
+					<h4 class="text-xl font-bold text-blue-800 mb-2">{sidebarCta['TITLE']}</h4>
+					<p class="text-sm text-gray-800 mb-4">
+						{sidebarCta['DESCRIPTION']}
+					</p>
+					<a href="#" id="open-ebook-modal-sidebar" class="inline-block bg-blue-600 text-white font-bold py-2 px-5 rounded-full text-sm hover:bg-blue-700 transition" data-book-id={sidebarCta['BOOK ID']}>
+						{sidebarCta['BUTTON TEXT']}
+					</a>
+				</div>
+			</aside>
+		</div>
+	</div>
 </BaseLayout>

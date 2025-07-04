@@ -1,13 +1,12 @@
 PAGE,LOCATION,TITLE,DESCRIPTION,BUTTON TEXT,BOOK ID
-home,hero,Special Report,Special Report,Grab It Now,special_report
-home,sidebar,Special Report,Special Report,Grab It Now,special_report
-home,bottom,Special Report,Special Report,Grab It Now,special_report
-post,hero,Special Report,Special Report,Grab It Now,special_report
-post,sidebar,Special Report,Special Report,Grab It Now,special_report
-post,bottom,Special Report,Special Report,Grab It Now,special_report
-about,hero,Special Report,Special Report,Grab It Now,special_report
-about,sidebar,Special Report,Special Report,Grab It Now,special_report
-about,bottom,Special Report,Special Report,Grab It Now,special_report
-services,hero,Special Report,Special Report,Grab It Now,special_report
-services,sidebar,Special Report,Special Report,Grab It Now,special_report
-services,bottom,Special Report,Special Report,Grab It Now,special_report
+home,hero,AI Marketing Guide,Leverage Deep Research, Now Available,ai_marketing_guide
+home,bottom,AI Automation Mistakes,Don't Automate Mediocrity,Grab Yours Now,ai_automation_mistakes
+post,hero,AI Marketing Guide,Leverage Deep Research,Get The Book,ai_marketing_guide
+post,sidebar,5 Mistakes to Avoid,Learn From Other's Mistakes,Grab This Now,5_mistakes
+post,bottom,Smart Prompts,Bigger Isn't Always Better,Grab Yours Today,smart_prompts
+about,hero,AI Marketing Guide,Leverage Deep Research,Get The Book,ai_marketing_guide
+about,sidebar,5 Mistakes to Avoid,Learn From Other's Mistakes,Grab This Now,5_mistakes
+about,bottom,Smart Prompts,Bigger Isn't Always Better,Grab Yours Today,smart_prompts
+services,hero,AI Marketing Guide,Leverage Deep Research,Get The Book,ai_marketing_guide
+services,sidebar,5 Mistakes to Avoid,Learn From Other's Mistakes,Grab This Now,5_mistakes
+services,bottom,Smart Prompts,Bigger Isn't Always Better,Grab Yours Today,smart_prompts

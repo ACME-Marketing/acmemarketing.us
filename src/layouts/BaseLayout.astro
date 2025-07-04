@@ -14,6 +14,11 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="preload" href="/fonts/MrsSheppards-Regular.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="/fonts/abastina.otf" as="font" type="font/otf" crossorigin />
+		<link rel="preload" href="/fonts/Brolink DEMO.otf" as="font" type="font/otf" crossorigin />
+		<link rel="preload" href="/fonts/NotoSans-VariableFont_wdth,wght.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="/fonts/static/NotoSans-Bold.ttf" as="font" type="font/ttf" crossorigin />
 		<title>{title}</title>
 		
 	</head>
@@ -21,8 +26,9 @@ const { title } = Astro.props;
 		<header class="bg-blue-800 text-white py-4 shadow-md">
 			<div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
 				<a href="/" class="flex items-center">
-					<img src="/acmemarketing logo1.jpg" alt="ACME Marketing Logo" class="h-20 mr-3">
-					<span class="self-center text-3xl font-extrabold whitespace-nowrap text-white">ACME Marketing</span>
+					<span class="self-center text-4xl font-extrabold whitespace-nowrap tracking-tight noto-sans-display-bold neon-logo" style="letter-spacing: 0.03em; font-family: 'Noto Sans Display', sans-serif; font-weight: 700; font-optical-sizing: auto; font-variation-settings: 'wdth' 100; color: #00ffff; text-shadow: 0 0 1px #1e3a8a, 0 0 3px #00ffff, 0 0 6px #00ffff, 0 0 9px #00ffff, 0 0 12px #00ffff, 0 0 15px #00ffff, 0 0 18px #00ffff, 0 0 21px #00ffff;">
+						ACME Marketing
+					</span>
 				</a>
 				<nav>
 					<ul class="flex flex-wrap justify-center space-x-4 text-lg">
@@ -58,6 +64,7 @@ const { title } = Astro.props;
 				<h2 class="text-3xl font-extrabold mb-6 text-center text-white drop-shadow-lg tracking-tight break-words whitespace-normal leading-tight">Download Your Ebook</h2>
 				<form id="ebook-form" class="w-full space-y-6 mt-2">
 					<input type="hidden" id="ebook-page-of-click" name="page_of_click">
+					<input type="hidden" id="ebook-book-id" name="book_id">
 					<div class="relative">
 						<input type="text" id="ebook-first-name" name="first_name" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="First Name" required />
 						<label for="ebook-first-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">First Name</label>
@@ -136,9 +143,11 @@ const openEbookModalButtons = document.querySelectorAll('[id^="open-ebook-modal"
 const ebookModal = document.getElementById('lead-form-modal');
 const closeEbookModalButton = document.getElementById('close-ebook-modal');
 const ebookPageOfClickInput = document.getElementById('ebook-page-of-click');
+const ebookBookIdInput = document.getElementById('ebook-book-id');
 
 const openConsultationModalButton = document.getElementById('open-consultation-modal');
 const openConsultationModalContactButton = document.getElementById('open-consultation-modal-contact');
+const openConsultationModalHeroButton = document.getElementById('open-consultation-modal-hero');
 const consultationModal = document.getElementById('consultation-form-modal');
 const closeConsultationModalButton = document.getElementById('close-consultation-modal');
 const consultationPageOfClickInput = document.getElementById('consultation-page-of-click');
@@ -163,16 +172,22 @@ function hideModal(modal) {
 openEbookModalButtons.forEach(button => {
   button.addEventListener('click', (e) => {
     e.preventDefault();
-    showModal(ebookModal, ebookPageOfClickInput);
+    if (ebookModal) showModal(ebookModal, ebookPageOfClickInput);
+    // Set the book ID from the button's data attribute
+    if (ebookBookIdInput && 'value' in ebookBookIdInput) {
+      (ebookBookIdInput as HTMLInputElement).value = button.getAttribute('data-book-id') || '';
+    }
   });
 });
 
-closeEbookModalButton.addEventListener('click', () => hideModal(ebookModal));
-ebookModal.addEventListener('click', (e) => {
-  if (e.target === ebookModal) {
-    hideModal(ebookModal);
-  }
-});
+if (closeEbookModalButton && ebookModal) {
+  closeEbookModalButton.addEventListener('click', () => hideModal(ebookModal));
+  ebookModal.addEventListener('click', (e) => {
+    if (e.target === ebookModal) {
+      hideModal(ebookModal);
+    }
+  });
+}
 
 // D. Consultation Modal Logic
 if (openConsultationModalButton) {
@@ -184,6 +199,13 @@ if (openConsultationModalButton) {
 
 if (openConsultationModalContactButton) {
 	openConsultationModalContactButton.addEventListener('click', (e) => {
+		e.preventDefault();
+		showModal(consultationModal, consultationPageOfClickInput);
+	});
+}
+
+if (openConsultationModalHeroButton) {
+	openConsultationModalHeroButton.addEventListener('click', (e) => {
 		e.preventDefault();
 		showModal(consultationModal, consultationPageOfClickInput);
 	});
@@ -208,8 +230,22 @@ if (consultationModal) {
   100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 .animate-glass-modal {
-  animation: glass-modal 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: glass-modal 0.4s ease-out;
 }
+
+@keyframes neon-pulse {
+  0%, 100% { 
+    text-shadow: 0 0 1px #1e3a8a, 0 0 3px #00ffff, 0 0 6px #00ffff, 0 0 9px #00ffff, 0 0 12px #00ffff, 0 0 15px #00ffff, 0 0 18px #00ffff, 0 0 21px #00ffff;
+  }
+  50% { 
+    text-shadow: 0 0 1px #1e3a8a, 0 0 6px #00ffff, 0 0 12px #00ffff, 0 0 18px #00ffff, 0 0 24px #00ffff, 0 0 30px #00ffff, 0 0 36px #00ffff, 0 0 42px #00ffff;
+  }
+}
+
+.neon-logo {
+  animation: neon-pulse 3s ease-in-out infinite;
+}
+
 @keyframes ai-pulse {
   0%, 100% { filter: drop-shadow(0 0 0px #fff); }
   50% { filter: drop-shadow(0 0 16px #fff); }

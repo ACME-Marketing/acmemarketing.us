@@ -27,6 +27,7 @@ export function loadCtaData() {
     if (!ctaMap[page]) ctaMap[page] = {};
     ctaMap[page][location] = row;
   }
+  console.log('DEBUG: CTA Map:', JSON.stringify(ctaMap, null, 2));
   ctaDataCache = { ctaMap };
   return ctaDataCache;
 }
@@ -36,6 +37,7 @@ export function getCta({ page, location }) {
   // Fallback to 'home' if page not found
   const pageKey = ctaMap[page] ? page : 'home';
   const row = (ctaMap[pageKey] && ctaMap[pageKey][location]) || {};
+  console.log(`DEBUG: getCta lookup for page="${page}" location="${location}". pageKey="${pageKey}". Row:`, row);
   // Apply defaults for any missing/blank fields
   const result = {};
   for (const key of Object.keys(DEFAULTS)) {

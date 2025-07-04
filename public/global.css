@@ -1,3 +1,184 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Example: Self-hosted Google Fonts Implementation */
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Regular.woff2') format('woff2'),
+       url('/fonts/Roboto-Regular.woff') format('woff'),
+       url('/fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  font-preload: true;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('/fonts/Roboto-Bold.woff2') format('woff2'),
+       url('/fonts/Roboto-Bold.woff') format('woff'),
+       url('/fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  font-preload: true;
+}
+
+/* Your existing custom fonts */
+@font-face {
+  font-family: 'Brolink';
+  src: url('/fonts/Brolink DEMO.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  font-preload: true;
+}
+
+/* Optimized Abastina font declaration */
+@font-face {
+  font-family: 'Abastina';
+  src: url('/fonts/abastina.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  font-preload: true;
+}
+
+@font-face {
+  font-family: 'MrsSheppards';
+  src: url('/fonts/MrsSheppards-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Noto Sans Display Variable Font */
+@font-face {
+  font-family: 'Noto Sans Display';
+  src: url('/fonts/NotoSans-VariableFont_wdth,wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  font-preload: true;
+}
+
+/* Noto Sans Display Static Fonts (Fallback) */
+@font-face {
+  font-family: 'Noto Sans Display';
+  src: url('/fonts/static/NotoSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans Display';
+  src: url('/fonts/static/NotoSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans Display';
+  src: url('/fonts/static/NotoSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font utility classes */
+.brolink-font {
+  font-family: 'Brolink', ui-sans-serif, system-ui, sans-serif;
+}
+
+.abastina-font {
+  font-family: 'Abastina', ui-sans-serif, system-ui, sans-serif;
+}
+
+.mrs-sheppards-font {
+  font-family: 'MrsSheppards', ui-sans-serif, system-ui, sans-serif;
+}
+
+.mrs-sheppards-regular {
+  font-family: "Mrs Sheppards", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Noto Sans Display utility classes */
+.noto-sans-display-thin {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.noto-sans-display-light {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.noto-sans-display-regular {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.noto-sans-display-medium {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.noto-sans-display-semibold {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.noto-sans-display-bold {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 25%, #f97316 50%, #ea580c 75%, #dc2626 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.noto-sans-display-extrabold {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.noto-sans-display-black {
+  font-family: "Noto Sans Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+/* Example: Google Fonts utility class */
+.roboto-font {
+  font-family: 'Roboto', ui-sans-serif, system-ui, sans-serif;
+}

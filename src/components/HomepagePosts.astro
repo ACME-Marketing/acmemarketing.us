@@ -3,6 +3,21 @@ export interface Props {
   posts: any[]
 }
 const { posts } = Astro.props
+
+// Debug: Log the posts being rendered
+console.log("HomepagePosts component received posts:", posts.length)
+console.log("HomepagePosts posts array:", posts)
+
+// Check for duplicates in the received posts
+const uriCounts = {}
+posts.forEach(post => {
+  uriCounts[post.uri] = (uriCounts[post.uri] || 0) + 1
+})
+console.log("HomepagePosts URI counts:", uriCounts)
+
+posts.forEach((post, index) => {
+  console.log(`Rendering post ${index + 1}: "${post.title}" (${post.uri})`)
+})
 ---
 
 <main class="container mx-auto px-4 py-16">
@@ -10,10 +25,10 @@ const { posts } = Astro.props
 
   {posts.length > 0 ? (
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <a
           href={`/posts/${post.uri.replace(/^\/|\/$/g, '')}`}
-          class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 transform hover:scale-105 transition duration-300 flex flex-col h-[550px] group"
+          class={`bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 transform hover:scale-105 transition duration-300 flex flex-col ${post.featuredImage?.node?.sourceUrl ? 'h-[650px]' : 'h-[550px]'} group`}
         >
           {post.featuredImage?.node?.sourceUrl && (
             <img
@@ -24,13 +39,56 @@ const { posts } = Astro.props
               class="w-full h-56 object-cover border-b border-gray-200"
             />
           )}
-
-          <div class="p-7 flex flex-col flex-grow justify-between">
-            <div class="flex-grow">
-              <h3 class="text-2xl font-semibold mb-3 leading-tight text-gray-900 group-hover:text-blue-600 transition duration-300">
-                {post.title}
-              </h3>
-              <div class="text-gray-700 text-base mb-5" set:html={post.content.substring(0, 180) + '...'} />
+          <div class="p-6 flex flex-col flex-grow">
+            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-cyan-600 transition-colors">
+              {post.title}
+            </h3>
+            <div class="text-gray-700 text-base mb-5 flex-grow">
+              {post.content ? 
+                post.content
+                  .replace(/<[^>]*>/g, '') // Remove HTML tags
+                  .replace(/&[#\w]+;/g, (match) => { // Decode HTML entities
+                    const entities = {
+                      '&#8217;': "'",
+                      '&#8216;': "'",
+                      '&#8220;': '"',
+                      '&#8221;': '"',
+                      '&#8230;': '...',
+                      '&quot;': '"',
+                      '&amp;': '&',
+                      '&lt;': '<',
+                      '&gt;': '>',
+                      '&apos;': "'",
+                      '&nbsp;': ' '
+                    };
+                    return entities[match] || match;
+                  })
+                  .replace(/\n+/g, ' ') // Replace multiple newlines with single space
+                  .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+                  .trim()
+                  .substring(0, 180) + (post.content.replace(/<[^>]*>/g, '').replace(/&[#\w]+;/g, (match) => {
+                    const entities = {
+                      '&#8217;': "'",
+                      '&#8216;': "'",
+                      '&#8220;': '"',
+                      '&#8221;': '"',
+                      '&#8230;': '...',
+                      '&quot;': '"',
+                      '&amp;': '&',
+                      '&lt;': '<',
+                      '&gt;': '>',
+                      '&apos;': "'",
+                      '&nbsp;': ' '
+                    };
+                    return entities[match] || match;
+                  }).replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim().length > 180 ? '...' : '')
+                : 'No content available'
+              }
+            </div>
+            <div class="mt-auto">
+              <span class="text-cyan-600 font-medium group-hover:text-cyan-700 transition-colors">
+                Read More →
+              </span>
             </div>
           </div>
         </a>
