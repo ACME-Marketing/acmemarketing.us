@@ -1,7 +1,10 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { graphQLClient, gql } from '../lib/graphql';
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Hero from '../components/Hero.astro'
+import HomepagePosts from '../components/HomepagePosts.astro'
+import { graphQLClient, gql } from '../lib/graphql'
 
+// GraphQL query for posts with tags "acmemarketing" or "all"
 const GET_POSTS = gql`
   query GetPosts {
     posts(where: { tagSlugIn: ["acmemarketing", "all"] }) {
@@ -19,7 +22,7 @@ const GET_POSTS = gql`
             }
           }
         }
-      tags {
+        tags {
           nodes {
             name
             slug
@@ -28,52 +31,19 @@ const GET_POSTS = gql`
       }
     }
   }
-`;
+`
 
-let posts = [];
+let posts = []
 try {
-  const data = await graphQLClient.request(GET_POSTS);
-  posts = data.posts.nodes;
-  console.log("Fetched posts for acmemarketing.us:", posts);
+  const data = await graphQLClient.request(GET_POSTS)
+  posts = data.posts.nodes
+  console.log("Fetched posts for acmemarketing.us:", posts)
 } catch (error) {
-  console.error("Error fetching posts:", error);
+  console.error("Error fetching posts:", error)
 }
 ---
 
 <BaseLayout title="ACME Marketing">
-	
-
-	<section class="relative bg-red-600 text-white py-20 text-center overflow-hidden">
-		<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/hero-background.svg');"></div>
-		<div class="container mx-auto relative z-10 px-4">
-			<h2 class="text-5xl font-extrabold mb-4 leading-tight">Stake Your Claim in the AI Goldrush!</h2>
-			<p class="text-xl mb-8">Got AI? Get Boosted!</p>
-			<a href="#" id="open-consultation-modal" class="bg-white text-blue-800 hover:bg-gray-200 font-bold py-3 px-8 rounded-full transition duration-300">Get a Free Consultation</a>
-		</div>
-	</section>
-
-	<main class="container mx-auto px-4 py-8">
-		<h2 class="text-3xl font-bold text-center mb-8">Latest Insights</h2>
-		{posts.length > 0 ? (
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				{posts.map((post) => (
-					<a href={`/posts/${post.uri.replace(/^\/|\/$/g, '')}`} class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200 transform hover:scale-105 transition duration-300 flex flex-col h-[550px] group">
-						{post.featuredImage && post.featuredImage.node && (
-							<img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} width={post.featuredImage.node.mediaDetails.width} height={post.featuredImage.node.mediaDetails.height} class="w-full h-56 object-cover border-b border-gray-200" />
-						)}
-						<div class="p-7 flex flex-col flex-grow justify-between">
-							<div class="flex-grow">
-								<h3 class="text-2xl font-semibold mb-3 leading-tight text-gray-900 group-hover:text-blue-600 transition duration-300">{post.title}</h3>
-								<div class="text-gray-700 text-base mb-5" set:html={post.content.substring(0, 180) + '...'} />
-							</div>
-						</div>
-					</a>
-				))}
-			</div>
-		) : (
-			<p class="text-center text-gray-600">No posts found. Please add some posts in your WordPress CMS with the tag "acmemarketing" or "all".</p>
-		)}
-	</main>
-
-	
+  <Hero />
+  <HomepagePosts posts={posts} />
 </BaseLayout>
