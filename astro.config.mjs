@@ -5,3 +5,9 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   integrations: [tailwind()]
 });
+
+import react from '@astrojs/react';
+
+export default {
+  integrations: [react()],
+};
