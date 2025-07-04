@@ -14,11 +14,10 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="preload" href="/fonts/MrsSheppards-Regular.ttf" as="font" type="font/ttf" crossorigin />
-		<link rel="preload" href="/fonts/abastina.otf" as="font" type="font/otf" crossorigin />
-		<link rel="preload" href="/fonts/Brolink DEMO.otf" as="font" type="font/otf" crossorigin />
-		<link rel="preload" href="/fonts/NotoSans-VariableFont_wdth,wght.ttf" as="font" type="font/ttf" crossorigin />
-		<link rel="preload" href="/fonts/static/NotoSans-Bold.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:ital,opsz,wght@0,14..100,100..900;1,14..100,100..900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:ital,opsz,wght@0,14..100,100..900;1,14..100,100..900&display=swap"></noscript>
+		<link rel="preload" href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mrs+Saint+Delafield&display=swap"></noscript>
 		<title>{title}</title>
 		
 	</head>
