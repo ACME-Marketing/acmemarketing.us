@@ -1,8 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCta } from '../lib/loadCtaData.js';
-
-const heroCta = getCta({ page: 'about', location: 'hero' });
 ---
 
 <BaseLayout title="About ACME Marketing">
@@ -13,7 +10,7 @@ const heroCta = getCta({ page: 'about', location: 'hero' });
       
       <div class="flex flex-col md:flex-row items-center md:space-x-8 mb-12">
         <div class="md:w-1/2">
-          <img src="/ai-automation.svg" alt="AI Boosted Content Generation" class="w-full h-auto rounded-lg shadow-md mb-6 md:mb-0" />
+          <img src="/ai-automation.svg" alt="AI Boosted Content Generation" class="w-full h-auto rounded-lg shadow-md mb-6 md:mb-0">
         </div>
         <div class="md:w-1/2">
           <h2 class="text-3xl font-bold mb-4">Our Edge: AI-Boosted Content & Automation</h2>
@@ -23,18 +20,18 @@ const heroCta = getCta({ page: 'about', location: 'hero' });
       
       <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-8 mb-12">
         <div class="md:w-1/2">
-          <img src="/workflow-automation.svg" alt="Seamless Automation" class="w-full h-auto rounded-lg shadow-md mb-6 md:mb-0" />
+          <img src="/workflow-automation.svg" alt="Seamless Automation" class="w-full h-auto rounded-lg shadow-md mb-6 md:mb-0">
         </div>
         <div class="md:w-1/2">
-          <h2 class="text-3xl font-bold mb-4">n8n Automation for Maximum Impact</h2>
+          <h2 class="text-3xl font-bold mb-4">Seamless Automation for Maximum Impact</h2>
           <p>Beyond content, we build intelligent automation workflows that streamline your marketing operations. Imagine lead nurturing sequences, personalized customer journeys, and data-driven insights, all working seamlessly in the background. This frees up your valuable time and resources, allowing you to focus on what you do best: growing your business.</p>
         </div>
       </div>
 
       <div class="text-center mt-12 p-8 bg-blue-50 border-l-4 border-blue-500 rounded-lg shadow-md">
-        <h3 class="text-3xl font-bold text-blue-800 mb-4">{heroCta['TITLE']}</h3>
-        <p class="text-lg text-gray-700 mb-6">{heroCta['DESCRIPTION']}</p>
-        <a href="#" id="open-ebook-modal-about" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">{heroCta['BUTTON TEXT']}</a>
+        <h3 class="text-3xl font-bold text-blue-800 mb-4">Unlock the Future of Marketing!</h3>
+        <p class="text-lg text-gray-700 mb-6">Download our FREE ebook: <strong>"AI Automation: Why It's Now Table Stakes for Every Company"</strong> and discover how to stay ahead in the competitive landscape.</p>
+        <a href="#" id="open-ebook-modal" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">Download Your Free Ebook</a>
       </div>
 
       <h2 class="text-3xl font-bold mb-4 mt-12">Why Choose ACME Marketing?</h2>

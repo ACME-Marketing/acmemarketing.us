@@ -1,0 +1,13 @@
+PAGE,LOCATION,TITLE,DESCRIPTION,BUTTON TEXT,BOOK ID
+home,hero,Special Report,Special Report,Grab It Now,special_report
+home,sidebar,Special Report,Special Report,Grab It Now,special_report
+home,bottom,Special Report,Special Report,Grab It Now,special_report
+post,hero,Special Report,Special Report,Grab It Now,special_report
+post,sidebar,Special Report,Special Report,Grab It Now,special_report
+post,bottom,Special Report,Special Report,Grab It Now,special_report
+about,hero,Special Report,Special Report,Grab It Now,special_report
+about,sidebar,Special Report,Special Report,Grab It Now,special_report
+about,bottom,Special Report,Special Report,Grab It Now,special_report
+services,hero,Special Report,Special Report,Grab It Now,special_report
+services,sidebar,Special Report,Special Report,Grab It Now,special_report
+services,bottom,Special Report,Special Report,Grab It Now,special_report

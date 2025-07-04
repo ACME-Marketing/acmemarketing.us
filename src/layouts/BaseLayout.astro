@@ -20,40 +20,98 @@ const { title } = Astro.props;
 	<body>
 		<header class="bg-blue-800 text-white py-4 shadow-md">
 			<div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-				<h1 class="text-3xl font-extrabold mb-2 md:mb-0"><a href="/" class="hover:text-red-400">ACME Marketing</a></h1>
+				<a href="/" class="flex items-center">
+					<img src="/acmemarketing logo1.jpg" alt="ACME Marketing Logo" class="h-20 mr-3">
+					<span class="self-center text-3xl font-extrabold whitespace-nowrap text-white">ACME Marketing</span>
+				</a>
 				<nav>
 					<ul class="flex flex-wrap justify-center space-x-4 text-lg">
 						<li><a href="/" class="hover:text-red-400 transition duration-300">Home</a></li>
 						<li><a href="#" class="hover:text-red-400 transition duration-300">Services</a></li>
 						<li><a href="/posts" class="hover:text-red-400 transition duration-300">Blog</a></li>
-						<li><a href="#" class="hover:text-red-400 transition duration-300">Contact</a></li>
+						<li><a href="#" id="open-consultation-modal-contact" class="hover:text-red-400 transition duration-300">Contact</a></li>
 					</ul>
 				</nav>
 			</div>
 		</header>
 		<slot />
 
-		<!-- Popup Form Modal -->
-		<div id="lead-form-modal" class="fixed inset-0 bg-sky-200 bg-opacity-90 flex items-center justify-center z-50 hidden">
-			<div class="bg-sky-100 p-8 rounded-lg shadow-xl max-w-lg w-full relative">
-				<button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
-				<h2 class="text-3xl font-bold mb-6 text-center text-gray-800">Download Your Ebook</h2>
-				<form id="ebook-form" class="grid grid-cols-1 gap-4">
-					<input type="hidden" id="page-of-click" name="page_of_click">
+		<!-- Ebook Popup Form Modal -->
+		<div id="lead-form-modal" class="fixed inset-0 bg-black/80 backdrop-blur-[6px] flex items-center justify-center z-50 hidden">
+			<div class="relative bg-gradient-to-br from-blue-900/90 to-cyan-900/90 border-2 border-cyan-400/40 rounded-2xl shadow-2xl max-w-lg w-full p-10 flex flex-col items-center animate-glass-modal">
+				<!-- Rifle Scope AI SVG Icon -->
+				<div class="mb-4">
+					<svg class="w-16 h-16" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<circle cx="40" cy="40" r="32" fill="#22d3ee" fill-opacity="0.18"/>
+						<circle cx="40" cy="40" r="30" stroke="#fff" stroke-width="1.5" fill="none"/>
+						<!-- Crosshairs -->
+						<line x1="40" y1="20" x2="40" y2="60" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+						<line x1="20" y1="40" x2="60" y2="40" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+						<!-- Tick marks -->
+						<line x1="40" y1="10" x2="40" y2="16" stroke="#fff" stroke-width="1.2"/>
+						<line x1="40" y1="64" x2="40" y2="70" stroke="#fff" stroke-width="1.2"/>
+						<line x1="10" y1="40" x2="16" y2="40" stroke="#fff" stroke-width="1.2"/>
+						<line x1="64" y1="40" x2="70" y2="40" stroke="#fff" stroke-width="1.2"/>
+					</svg>
+				</div>
+				<button id="close-ebook-modal" class="absolute top-4 right-4 text-cyan-300 hover:text-fuchsia-400 text-3xl font-bold transition-all">&times;</button>
+				<h2 class="text-3xl font-extrabold mb-6 text-center text-white drop-shadow-lg tracking-tight break-words whitespace-normal leading-tight">Download Your Ebook</h2>
+				<form id="ebook-form" class="w-full space-y-6 mt-2">
+					<input type="hidden" id="ebook-page-of-click" name="page_of_click">
+					<div class="relative">
+						<input type="text" id="ebook-first-name" name="first_name" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="First Name" required />
+						<label for="ebook-first-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">First Name</label>
+					</div>
+					<div class="relative">
+						<input type="text" id="ebook-last-name" name="last_name" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="Last Name" required />
+						<label for="ebook-last-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Last Name</label>
+					</div>
+					<div class="relative">
+						<input type="email" id="ebook-email" name="email" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="Email" required />
+						<label for="ebook-email" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Email</label>
+					</div>
+					<div class="text-center mt-6">
+						<button type="submit" class="bg-gradient-to-r from-cyan-400 via-blue-600 to-fuchsia-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:from-fuchsia-500 hover:to-cyan-400 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-fuchsia-300 transition-all duration-300 text-lg tracking-wide">
+							Download Ebook
+						</button>
+					</div>
+				</form>
+				<!-- Tagline below CTA -->
+				<div class="mt-8 text-center text-cyan-200 text-base font-semibold tracking-wide italic opacity-80">
+					AI First Marketing—Unleashed
+				</div>
+			</div>
+		</div>
+
+		<!-- Consultation Popup Form Modal -->
+		<div id="consultation-form-modal" class="fixed inset-0 bg-green-200 bg-opacity-90 flex items-center justify-center z-50 hidden">
+			<div class="bg-green-100 p-8 rounded-lg shadow-xl max-w-lg w-full relative">
+				<button id="close-consultation-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+				<h2 class="text-3xl font-bold mb-6 text-center text-gray-800">Get a Free Consultation</h2>
+				<form id="consultation-form" class="grid grid-cols-1 gap-4">
+					<input type="hidden" id="consultation-page-of-click" name="page_of_click">
 					<div>
-						<label for="first-name" class="block text-gray-700 text-sm font-bold mb-2">First Name:</label>
-						<input type="text" id="first-name" name="first_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+						<label for="consultation-first-name" class="block text-gray-700 text-sm font-bold mb-2">First Name:</label>
+						<input type="text" id="consultation-first-name" name="first_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
 					</div>
 					<div>
-						<label for="last-name" class="block text-gray-700 text-sm font-bold mb-2">Last Name:</label>
-						<input type="text" id="last-name" name="last_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+						<label for="consultation-last-name" class="block text-gray-700 text-sm font-bold mb-2">Last Name:</label>
+						<input type="text" id="consultation-last-name" name="last_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
 					</div>
 					<div>
-						<label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-						<input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+						<label for="consultation-email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+						<input type="email" id="consultation-email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+					</div>
+					<div>
+						<label for="consultation-company" class="block text-gray-700 text-sm font-bold mb-2">Company:</label>
+						<input type="text" id="consultation-company" name="company" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+					</div>
+					<div>
+						<label for="consultation-challenge" class="block text-gray-700 text-sm font-bold mb-2">Your biggest challenge is...</label>
+						<textarea id="consultation-challenge" name="challenge" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4"></textarea>
 					</div>
 					<div class="col-span-1 text-center">
-						<button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300">Download Ebook</button>
+						<button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition duration-300">Request Consultation</button>
 					</div>
 				</form>
 			</div>
@@ -71,54 +129,109 @@ const { title } = Astro.props;
 			</div>
 		</footer>
 	<script>
-// Force a re-render to bust cache
-console.log("BaseLayout script loaded.");
-const ctaButton = document.getElementById('open-ebook-modal');
-const ctaSidebarButton = document.getElementById('open-ebook-modal-sidebar'); // Added this line
-const modal = document.getElementById('lead-form-modal');
-const closeModalButton = document.getElementById('close-modal');
-const pageOfClickInput = document.getElementById('page-of-click');
+// --- MODAL SCRIPT ---
 
-// Function to show the modal
-function showModal() {
-modal.classList.remove('hidden');
-modal.classList.add('flex');
-document.body.style.overflow = 'hidden'; // Prevent scrolling
-pageOfClickInput.value = window.location.href; // Set page of click
+// A. Get all the elements we need
+const openEbookModalButtons = document.querySelectorAll('[id^="open-ebook-modal"]');
+const ebookModal = document.getElementById('lead-form-modal');
+const closeEbookModalButton = document.getElementById('close-ebook-modal');
+const ebookPageOfClickInput = document.getElementById('ebook-page-of-click');
+
+const openConsultationModalButton = document.getElementById('open-consultation-modal');
+const openConsultationModalContactButton = document.getElementById('open-consultation-modal-contact');
+const consultationModal = document.getElementById('consultation-form-modal');
+const closeConsultationModalButton = document.getElementById('close-consultation-modal');
+const consultationPageOfClickInput = document.getElementById('consultation-page-of-click');
+
+// B. Generic Modal Functions
+function showModal(modal, pageOfClickInput) {
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+  if (pageOfClickInput) {
+    pageOfClickInput.value = window.location.href;
+  }
 }
 
-// Function to hide the modal
-function hideModal() {
-modal.classList.add('hidden');
-modal.classList.remove('flex');
-document.body.style.overflow = ''; // Restore scrolling
+function hideModal(modal) {
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  document.body.style.overflow = '';
 }
 
-// Event listener for CTA button click
-if (ctaButton) {
-ctaButton.addEventListener('click', (e) => {
-e.preventDefault(); // Prevent default link behavior
-showModal();
+// C. Ebook Modal Logic
+openEbookModalButtons.forEach(button => {
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
+    showModal(ebookModal, ebookPageOfClickInput);
+  });
 });
-}
 
-// Event listener for sidebar CTA button click // Added this block
-if (ctaSidebarButton) {
-ctaSidebarButton.addEventListener('click', (e) => {
-e.preventDefault(); // Prevent default link behavior
-showModal();
+closeEbookModalButton.addEventListener('click', () => hideModal(ebookModal));
+ebookModal.addEventListener('click', (e) => {
+  if (e.target === ebookModal) {
+    hideModal(ebookModal);
+  }
 });
+
+// D. Consultation Modal Logic
+if (openConsultationModalButton) {
+  openConsultationModalButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    showModal(consultationModal, consultationPageOfClickInput);
+  });
 }
 
-// Event listener for close button click
-closeModalButton.addEventListener('click', hideModal);
-
-// Event listener for clicking outside the modal (overlay)
-modal.addEventListener('click', (e) => {
-if (e.target === modal) {
-hideModal();
+if (openConsultationModalContactButton) {
+	openConsultationModalContactButton.addEventListener('click', (e) => {
+		e.preventDefault();
+		showModal(consultationModal, consultationPageOfClickInput);
+	});
 }
-});
+
+if (closeConsultationModalButton) {
+	closeConsultationModalButton.addEventListener('click', () => hideModal(consultationModal));
+}
+
+if (consultationModal) {
+	consultationModal.addEventListener('click', (e) => {
+		if (e.target === consultationModal) {
+			hideModal(consultationModal);
+		}
+	});
+}
 </script>
+
+<style>
+@keyframes glass-modal {
+  0% { transform: scale(0.95) translateY(40px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+.animate-glass-modal {
+  animation: glass-modal 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+@keyframes ai-pulse {
+  0%, 100% { filter: drop-shadow(0 0 0px #fff); }
+  50% { filter: drop-shadow(0 0 16px #fff); }
+}
+.animate-ai-pulse {
+  animation: ai-pulse 2.5s infinite;
+}
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  transform-origin: 50% 50%;
+  animation: spin-slow 8s linear infinite;
+}
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0.3); }
+  50% { box-shadow: 0 0 0 12px rgba(34,211,238,0.15); }
+}
+.animate-cta-pulse {
+  animation: cta-pulse 2.2s infinite;
+}
+</style>
 	</body>
 </html>
