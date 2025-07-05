@@ -67,15 +67,15 @@ const { title } = Astro.props;
 					<input type="hidden" id="ebook-book-id" name="book_id">
 					<div class="relative">
 						<input type="text" id="ebook-first-name" name="first_name" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="First Name" required />
-						<label for="ebook-first-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">First Name</label>
+						<label for="ebook-first-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-8 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">First Name</label>
 					</div>
 					<div class="relative">
 						<input type="text" id="ebook-last-name" name="last_name" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="Last Name" required />
-						<label for="ebook-last-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Last Name</label>
+						<label for="ebook-last-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-8 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Last Name</label>
 					</div>
 					<div class="relative">
 						<input type="email" id="ebook-email" name="email" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="Email" required />
-						<label for="ebook-email" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-5 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Email</label>
+						<label for="ebook-email" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-8 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Email</label>
 					</div>
 					<div class="text-center mt-6">
 						<button type="submit" class="bg-gradient-to-r from-cyan-400 via-blue-600 to-fuchsia-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:from-fuchsia-500 hover:to-cyan-400 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-fuchsia-300 transition-all duration-300 text-lg tracking-wide">
@@ -244,9 +244,9 @@ function handleFloatingLabels() {
       if (!label) return;
       if (inputElement.value.trim() !== '') {
         label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
-        label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
+        label.classList.add('-top-8', 'text-xs', 'text-fuchsia-200');
       } else {
-        label.classList.remove('-top-5', 'text-xs', 'text-fuchsia-200');
+        label.classList.remove('-top-8', 'text-xs', 'text-fuchsia-200');
         label.classList.add('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
       }
     }
@@ -262,7 +262,7 @@ function handleFloatingLabels() {
       if (!label) return;
       if (this.value.trim() === '') {
         label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
-        label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
+        label.classList.add('-top-8', 'text-xs', 'text-fuchsia-200');
       }
     });
     
