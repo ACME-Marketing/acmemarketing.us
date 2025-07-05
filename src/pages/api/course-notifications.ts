@@ -91,25 +91,29 @@ export const POST: APIRoute = async ({ request }) => {
       throw error;
     }
 
-    // Optional: Send welcome email via n8n webhook
+    // Send welcome email via Supabase SMTP
     try {
-      const webhookUrl = (import.meta as any).env.N8N_WEBHOOK_URL;
-      if (webhookUrl && data) {
-        await fetch(webhookUrl + '/course-notification-signup', {
+      // For now, we'll use the edge function approach since Supabase client doesn't have direct SMTP access
+      // The edge function will handle the Hostinger SMTP configuration
+      const supabaseUrl = (import.meta as any).env.PUBLIC_SUPABASE_URL;
+      if (supabaseUrl && data) {
+        await fetch(`${supabaseUrl}/functions/v1/send-course-notification`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${(import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY}`
+          },
           body: JSON.stringify({
             email: email,
             first_name: first_name || null,
             last_name: last_name || null,
-            company: company || null,
-            notification_preferences: data.notification_preferences
+            company: company || null
           })
         });
       }
-    } catch (webhookError) {
-      console.warn('Failed to send webhook notification:', webhookError);
-      // Don't fail the request if webhook fails
+    } catch (emailError) {
+      console.warn('Failed to send welcome email:', emailError);
+      // Don't fail the request if email fails
     }
 
     return new Response(JSON.stringify({
