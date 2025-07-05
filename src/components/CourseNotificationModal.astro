@@ -1,0 +1,185 @@
+---
+// Course Notification Modal Component
+---
+
+<!-- Course Notification Modal -->
+<div id="course-notification-modal" class="fixed inset-0 bg-black/80 backdrop-blur-[6px] flex items-center justify-center z-50 hidden">
+  <div class="relative bg-gradient-to-br from-blue-900/90 to-cyan-900/90 border-2 border-cyan-400/40 rounded-2xl shadow-2xl max-w-lg w-full p-10 flex flex-col items-center animate-glass-modal">
+    <!-- Rifle Scope AI SVG Icon -->
+    <div class="mb-4">
+      <svg class="w-16 h-16" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="40" cy="40" r="32" fill="#22d3ee" fill-opacity="0.18"/>
+        <circle cx="40" cy="40" r="30" stroke="#fff" stroke-width="1.5" fill="none"/>
+        <!-- Crosshairs -->
+        <line x1="40" y1="20" x2="40" y2="60" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="20" y1="40" x2="60" y2="40" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Tick marks -->
+        <line x1="40" y1="10" x2="40" y2="16" stroke="#fff" stroke-width="1.2"/>
+        <line x1="40" y1="64" x2="40" y2="70" stroke="#fff" stroke-width="1.2"/>
+        <line x1="10" y1="40" x2="16" y2="40" stroke="#fff" stroke-width="1.2"/>
+        <line x1="64" y1="40" x2="70" y2="40" stroke="#fff" stroke-width="1.2"/>
+      </svg>
+    </div>
+    
+    <button id="close-course-notification-modal" class="absolute top-4 right-4 text-cyan-300 hover:text-fuchsia-400 text-3xl font-bold transition-all">&times;</button>
+    
+    <h2 class="text-3xl font-extrabold mb-6 text-center text-white drop-shadow-lg tracking-tight break-words whitespace-normal leading-tight">
+      Get Course Notifications
+    </h2>
+    
+    <p class="text-center text-cyan-200 mb-6">
+      Be the first to know when new AI marketing courses launch. We'll notify you about:
+    </p>
+    
+    <ul class="text-cyan-200 mb-6 space-y-2">
+      <li class="flex items-center">
+        <span class="text-green-400 mr-2">✓</span>
+        New course releases
+      </li>
+      <li class="flex items-center">
+        <span class="text-green-400 mr-2">✓</span>
+        Course updates and improvements
+      </li>
+      <li class="flex items-center">
+        <span class="text-green-400 mr-2">✓</span>
+        Special launch discounts
+      </li>
+    </ul>
+    
+    <form id="course-notification-form" class="w-full space-y-6 mt-2">
+      <div class="relative">
+        <input type="text" id="notification-first-name" name="first_name" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="First Name" />
+        <label for="notification-first-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-8 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">First Name</label>
+      </div>
+      
+      <div class="relative">
+        <input type="text" id="notification-last-name" name="last_name" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="Last Name" />
+        <label for="notification-last-name" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-8 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Last Name</label>
+      </div>
+      
+      <div class="relative">
+        <input type="email" id="notification-email" name="email" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="Email" required />
+        <label for="notification-email" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-8 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Email *</label>
+      </div>
+      
+      <div class="relative">
+        <input type="text" id="notification-company" name="company" class="peer bg-transparent border-b-2 border-cyan-300 text-white placeholder-transparent focus:outline-none focus:border-fuchsia-400 w-full py-3 px-2 transition-all" placeholder="Company (Optional)" />
+        <label for="notification-company" class="absolute left-2 top-3 text-cyan-200 text-base transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-focus:-top-8 peer-focus:text-xs peer-focus:text-fuchsia-200 pointer-events-none">Company (Optional)</label>
+      </div>
+      
+      <div class="text-center mt-6">
+        <button type="submit" class="bg-gradient-to-r from-cyan-400 via-blue-600 to-fuchsia-500 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:from-fuchsia-500 hover:to-cyan-400 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-fuchsia-300 transition-all duration-300 text-lg tracking-wide">
+          Subscribe to Notifications
+        </button>
+      </div>
+    </form>
+    
+    <!-- Success Message (hidden by default) -->
+    <div id="notification-success" class="hidden text-center">
+      <div class="text-6xl mb-4">🎉</div>
+      <h3 class="text-2xl font-bold text-white mb-2">You're All Set!</h3>
+      <p class="text-cyan-200 mb-6">
+        We'll notify you as soon as new courses are available. Check your email for a confirmation.
+      </p>
+      <button id="close-notification-success" class="bg-cyan-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-cyan-600 transition duration-300">
+        Close
+      </button>
+    </div>
+    
+    <!-- Tagline below CTA -->
+    <div class="mt-8 text-center text-cyan-200 text-base font-semibold tracking-wide italic opacity-80">
+      AI First Marketing—Unleashed
+    </div>
+  </div>
+</div>
+
+<script>
+  // Course Notification Modal Logic
+  const courseNotificationModal = document.getElementById('course-notification-modal');
+  const closeCourseNotificationModal = document.getElementById('close-course-notification-modal');
+  const courseNotificationForm = document.getElementById('course-notification-form');
+  const notificationSuccess = document.getElementById('notification-success');
+  const closeNotificationSuccess = document.getElementById('close-notification-success');
+
+  // Show modal function
+  function showCourseNotificationModal() {
+    if (courseNotificationModal) {
+      courseNotificationModal.classList.remove('hidden');
+      courseNotificationModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  // Hide modal function
+  function hideCourseNotificationModal() {
+    if (courseNotificationModal) {
+      courseNotificationModal.classList.add('hidden');
+      courseNotificationModal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Close button event
+  if (closeCourseNotificationModal) {
+    closeCourseNotificationModal.addEventListener('click', hideCourseNotificationModal);
+  }
+
+  // Close on backdrop click
+  if (courseNotificationModal) {
+    courseNotificationModal.addEventListener('click', (e) => {
+      if (e.target === courseNotificationModal) {
+        hideCourseNotificationModal();
+      }
+    });
+  }
+
+  // Form submission
+  if (courseNotificationForm) {
+    courseNotificationForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(courseNotificationForm);
+      const data = {
+        email: formData.get('email'),
+        first_name: formData.get('first_name'),
+        last_name: formData.get('last_name'),
+        company: formData.get('company')
+      };
+
+      try {
+        const response = await fetch('/api/course-notifications', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          // Show success message
+          courseNotificationForm.classList.add('hidden');
+          notificationSuccess.classList.remove('hidden');
+        } else {
+          alert(result.error || 'There was an error subscribing to notifications.');
+        }
+      } catch (error) {
+        console.error('Error subscribing to notifications:', error);
+        alert('There was an error subscribing to notifications. Please try again.');
+      }
+    });
+  }
+
+  // Close success message
+  if (closeNotificationSuccess) {
+    closeNotificationSuccess.addEventListener('click', () => {
+      notificationSuccess.classList.add('hidden');
+      courseNotificationForm.classList.remove('hidden');
+      hideCourseNotificationModal();
+    });
+  }
+
+  // Make show function globally available
+  window.showCourseNotificationModal = showCourseNotificationModal;
+</script> 

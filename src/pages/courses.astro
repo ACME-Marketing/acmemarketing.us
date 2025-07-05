@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CourseNotificationModal from '../components/CourseNotificationModal.astro';
 import { supabase } from '../lib/supabase.js';
 import { getCta } from '../lib/loadCtaData.js';
 
@@ -175,7 +176,7 @@ try {
           <p class="text-gray-600 mb-6">
             We're preparing amazing AI marketing courses for you. Sign up to be notified when they launch!
           </p>
-          <button id="open-consultation-modal-courses-cta" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+          <button id="open-course-notification-modal" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
             Get Notified
           </button>
         </div>
@@ -203,6 +204,9 @@ try {
       </div>
     </div>
   </section>
+  
+  <!-- Include Course Notification Modal -->
+  <CourseNotificationModal />
 </BaseLayout>
 
 <script>
@@ -251,7 +255,6 @@ try {
   document.addEventListener('DOMContentLoaded', function() {
     const consultationButtons = [
       'open-consultation-modal-courses',
-      'open-consultation-modal-courses-cta', 
       'open-consultation-modal-courses-bottom'
     ];
 
@@ -268,5 +271,16 @@ try {
         });
       }
     });
+
+    // Add course notification modal button
+    const notificationButton = document.getElementById('open-course-notification-modal');
+    if (notificationButton) {
+      notificationButton.addEventListener('click', function() {
+        const showModal = (window as any).showCourseNotificationModal;
+        if (showModal) {
+          showModal();
+        }
+      });
+    }
   });
 </script> 
