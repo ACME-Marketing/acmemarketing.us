@@ -239,25 +239,27 @@ function handleFloatingLabels() {
     
     const inputElement = input as HTMLInputElement;
     
-    // Check if input has content on page load
-    if (inputElement.value.trim() !== '') {
-      label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
-      label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
-    }
-    
-    // Handle input events
-    inputElement.addEventListener('input', function() {
-      if (this.value.trim() !== '') {
+    // Function to update label position based on input value
+    function updateLabelPosition() {
+      if (!label) return;
+      if (inputElement.value.trim() !== '') {
         label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
         label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
       } else {
         label.classList.remove('-top-5', 'text-xs', 'text-fuchsia-200');
         label.classList.add('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
       }
-    });
+    }
+    
+    // Check if input has content on page load
+    updateLabelPosition();
+    
+    // Handle input events
+    inputElement.addEventListener('input', updateLabelPosition);
     
     // Handle focus events
     inputElement.addEventListener('focus', function() {
+      if (!label) return;
       if (this.value.trim() === '') {
         label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
         label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
@@ -265,12 +267,20 @@ function handleFloatingLabels() {
     });
     
     // Handle blur events
-    inputElement.addEventListener('blur', function() {
-      if (this.value.trim() === '') {
-        label.classList.remove('-top-5', 'text-xs', 'text-fuchsia-200');
-        label.classList.add('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
+    inputElement.addEventListener('blur', updateLabelPosition);
+    
+    // Handle autofill events (browser autofill)
+    inputElement.addEventListener('change', updateLabelPosition);
+    inputElement.addEventListener('animationstart', function(e) {
+      if (e.animationName === 'onAutoFillStart') {
+        updateLabelPosition();
       }
     });
+    
+    // Check for autofill on a timer (fallback for browsers that don't fire events)
+    setTimeout(updateLabelPosition, 100);
+    setTimeout(updateLabelPosition, 500);
+    setTimeout(updateLabelPosition, 1000);
   });
 }
 
@@ -289,6 +299,17 @@ openEbookModalButtons.forEach(button => {
       bookIdInput.value = button.getAttribute('data-book-id') || '';
     }
   });
+});
+
+// Initialize floating labels when DOM is ready (for autofill detection)
+document.addEventListener('DOMContentLoaded', () => {
+  // Check for autofilled fields periodically
+  setInterval(() => {
+    const ebookForm = document.getElementById('ebook-form');
+    if (ebookForm && !ebookForm.classList.contains('hidden')) {
+      handleFloatingLabels();
+    }
+  }, 2000);
 });
 </script>
 
@@ -335,6 +356,25 @@ openEbookModalButtons.forEach(button => {
 }
 .animate-cta-pulse {
   animation: cta-pulse 2.2s infinite;
+}
+
+/* Autofill detection */
+@keyframes onAutoFillStart {
+  from {/**/}
+  to {/**/}
+}
+
+@keyframes onAutoFillCancel {
+  from {/**/}
+  to {/**/}
+}
+
+input:-webkit-autofill {
+  animation-name: onAutoFillStart;
+}
+
+input:not(:-webkit-autofill) {
+  animation-name: onAutoFillCancel;
 }
 </style>
 	</body>
