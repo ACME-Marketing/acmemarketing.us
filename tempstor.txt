@@ -1,0 +1,4 @@
+# Files moved to tempstor
+# Format: timestamp - filename (original_path)
+
+2025-07-05T14:07:30.096Z - .DS_Store (.DS_Store)

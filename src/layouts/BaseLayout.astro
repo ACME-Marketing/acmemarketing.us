@@ -170,17 +170,7 @@ function hideModal(modal) {
   document.body.style.overflow = '';
 }
 
-// C. Ebook Modal Logic
-openEbookModalButtons.forEach(button => {
-  button.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (ebookModal) showModal(ebookModal, ebookPageOfClickInput);
-    // Set the book ID from the button's data attribute
-    if (ebookBookIdInput && 'value' in ebookBookIdInput) {
-      (ebookBookIdInput as HTMLInputElement).value = button.getAttribute('data-book-id') || '';
-    }
-  });
-});
+// C. Ebook Modal Logic - Handled in the floating label section below
 
 if (closeEbookModalButton && ebookModal) {
   closeEbookModalButton.addEventListener('click', () => hideModal(ebookModal));
@@ -238,6 +228,68 @@ if (consultationModal) {
 		}
 	});
 }
+
+// E. Floating Label Logic for Ebook Form
+function handleFloatingLabels() {
+  const inputs = document.querySelectorAll('#ebook-form input[type="text"], #ebook-form input[type="email"]');
+  
+  inputs.forEach(input => {
+    const label = document.querySelector(`label[for="${input.id}"]`);
+    if (!label) return;
+    
+    const inputElement = input as HTMLInputElement;
+    
+    // Check if input has content on page load
+    if (inputElement.value.trim() !== '') {
+      label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
+      label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
+    }
+    
+    // Handle input events
+    inputElement.addEventListener('input', function() {
+      if (this.value.trim() !== '') {
+        label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
+        label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
+      } else {
+        label.classList.remove('-top-5', 'text-xs', 'text-fuchsia-200');
+        label.classList.add('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
+      }
+    });
+    
+    // Handle focus events
+    inputElement.addEventListener('focus', function() {
+      if (this.value.trim() === '') {
+        label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
+        label.classList.add('-top-5', 'text-xs', 'text-fuchsia-200');
+      }
+    });
+    
+    // Handle blur events
+    inputElement.addEventListener('blur', function() {
+      if (this.value.trim() === '') {
+        label.classList.remove('-top-5', 'text-xs', 'text-fuchsia-200');
+        label.classList.add('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
+      }
+    });
+  });
+}
+
+// Initialize floating labels when ebook modal is shown
+openEbookModalButtons.forEach(button => {
+  button.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (ebookModal) {
+      showModal(ebookModal, ebookPageOfClickInput);
+      // Initialize floating labels after modal is shown
+      setTimeout(handleFloatingLabels, 100);
+    }
+    // Set the book ID from the button's data attribute
+    if (ebookBookIdInput) {
+      const bookIdInput = ebookBookIdInput as HTMLInputElement;
+      bookIdInput.value = button.getAttribute('data-book-id') || '';
+    }
+  });
+});
 </script>
 
 <style>

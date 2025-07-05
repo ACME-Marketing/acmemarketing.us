@@ -1,0 +1,8 @@
+CTA_Data - Sheet1.csv
+GEMINI_PLAN.md
+WP_2_Netlify.json
+cleanup-unused-files.js
+important commands.md
+supabase-schema.sql
+tempstor.txt
+wordpress_webhook_snippet_final.php

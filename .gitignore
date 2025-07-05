@@ -1,1 +1,8 @@
 node_modules/ 
+# Temporary storage for unused files
+tempstor/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
