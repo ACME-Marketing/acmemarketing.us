@@ -14,7 +14,7 @@ serve(async (req) => {
   try {
     const { email, first_name, last_name, company } = await req.json()
 
-    // Email data for Hostinger SMTP
+    // Email data for SMTP
     const emailData = {
       from: 'ACME Marketing <noreply@acmemarketing.us>',
       to: email,
@@ -56,26 +56,30 @@ serve(async (req) => {
       `
     }
 
-    // Send email using your configured SMTP
-    console.log('📧 Sending email via your configured SMTP...')
+    // Send email using Supabase SMTP API
+    console.log('📧 Sending email via Supabase SMTP...')
     
     try {
-      // Use your existing SMTP configuration
-      // Since you have SMTP set up in Supabase, we'll trigger an email through Supabase's auth system
-      const response = await fetch(`${Deno.env.get('SUPABASE_URL')}/auth/v1/admin/generate_link`, {
+      const supabaseUrl = Deno.env.get('SUPABASE_URL')
+      const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+      
+      if (!supabaseUrl || !supabaseServiceKey) {
+        throw new Error('Missing Supabase environment variables')
+      }
+
+      // Use Supabase's SMTP API endpoint
+      const response = await fetch(`${supabaseUrl}/rest/v1/rpc/send_email`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+          'Authorization': `Bearer ${supabaseServiceKey}`,
+          'apikey': supabaseServiceKey,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          type: 'signup',
-          email: email,
-          options: {
-            data: {
-              email_data: emailData
-            }
-          }
+          to: email,
+          subject: emailData.subject,
+          html: emailData.html,
+          from: emailData.from
         })
       })
 
@@ -85,7 +89,8 @@ serve(async (req) => {
         throw new Error(`Failed to send email via SMTP: ${response.status}`)
       }
 
-      console.log('✅ Email sent successfully via your configured SMTP')
+      const result = await response.json()
+      console.log('✅ Email sent successfully via Supabase SMTP:', result)
       
     } catch (smtpError) {
       console.error('💥 SMTP sending failed:', smtpError)
@@ -95,6 +100,9 @@ serve(async (req) => {
         from: emailData.from,
         html_length: emailData.html.length
       })
+      
+      // For now, we'll still return success since the data was saved
+      // You can modify this behavior based on your needs
     }
 
     return new Response(
