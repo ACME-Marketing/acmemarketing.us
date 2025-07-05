@@ -29,25 +29,34 @@ interface Course {
 // Fetch courses from Supabase
 let courses: Course[] = [];
 try {
-  const { data, error } = await supabase
+  // First, let's fetch just the courses to see if the basic query works
+  const { data: coursesData, error: coursesError } = await supabase
     .from('courses')
-    .select(`
-      *,
-      course_episodes (
-        id,
-        title,
-        episode_number,
-        is_free,
-        description
-      )
-    `)
+    .select('*')
     .eq('is_active', true)
     .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Error fetching courses:', error);
+  if (coursesError) {
+    console.error('Error fetching courses:', coursesError);
   } else {
-    courses = data || [];
+    courses = coursesData || [];
+    console.log('Fetched courses:', courses.length, courses);
+    
+    // Now fetch episodes for each course separately
+    for (let course of courses) {
+      const { data: episodesData, error: episodesError } = await supabase
+        .from('course_episodes')
+        .select('id, title, episode_number, is_free, description')
+        .eq('course_id', course.id)
+        .order('episode_number', { ascending: true });
+      
+      if (episodesError) {
+        console.error(`Error fetching episodes for course ${course.id}:`, episodesError);
+        course.course_episodes = [];
+      } else {
+        course.course_episodes = episodesData || [];
+      }
+    }
   }
 } catch (error) {
   console.error('Error in courses page:', error);
