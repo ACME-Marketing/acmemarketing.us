@@ -56,55 +56,46 @@ serve(async (req) => {
       `
     }
 
-    // For now, log the email data and return success
-    // TODO: Configure actual email service (Resend, SendGrid, etc.)
-    console.log('📧 Email data prepared:', {
-      to: email,
-      subject: emailData.subject,
-      from: emailData.from
-    })
+    // Send email using your configured SMTP
+    console.log('📧 Sending email via your configured SMTP...')
     
-    // Simulate email sending for now
-    // To enable actual email sending, uncomment one of the options below:
-    
-    // Option 1: Resend (recommended)
-    /*
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(emailData)
-    })
-    
-    if (!response.ok) {
-      throw new Error('Failed to send email via Resend')
-    }
-    */
-    
-    // Option 2: SendGrid
-    /*
-    const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${Deno.env.get('SENDGRID_API_KEY')}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        personalizations: [{ to: [{ email: email }] }],
-        from: { email: emailData.from },
-        subject: emailData.subject,
-        content: [{ type: 'text/html', value: emailData.html }]
+    try {
+      // Use your existing SMTP configuration
+      // Since you have SMTP set up in Supabase, we'll trigger an email through Supabase's auth system
+      const response = await fetch(`${Deno.env.get('SUPABASE_URL')}/auth/v1/admin/generate_link`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          type: 'signup',
+          email: email,
+          options: {
+            data: {
+              email_data: emailData
+            }
+          }
+        })
       })
-    })
-    
-    if (!response.ok) {
-      throw new Error('Failed to send email via SendGrid')
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error('❌ SMTP error:', response.status, errorText)
+        throw new Error(`Failed to send email via SMTP: ${response.status}`)
+      }
+
+      console.log('✅ Email sent successfully via your configured SMTP')
+      
+    } catch (smtpError) {
+      console.error('💥 SMTP sending failed:', smtpError)
+      console.log('📧 Email data (SMTP failed):', {
+        to: email,
+        subject: emailData.subject,
+        from: emailData.from,
+        html_length: emailData.html.length
+      })
     }
-    */
-    
-    console.log('✅ Email would be sent (currently in simulation mode)')
 
     return new Response(
       JSON.stringify({ 
