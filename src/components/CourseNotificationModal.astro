@@ -182,4 +182,23 @@
 
   // Make show function globally available
   window.showCourseNotificationModal = showCourseNotificationModal;
+
+  // Simple floating label functionality
+  if (courseNotificationForm) {
+    const inputs = courseNotificationForm.querySelectorAll('input');
+    inputs.forEach(input => {
+      const label = document.querySelector(`label[for="${input.id}"]`);
+      if (!label) return;
+
+      input.addEventListener('input', () => {
+        if (input.value.trim()) {
+          label.style.opacity = '0';
+          label.style.visibility = 'hidden';
+        } else {
+          label.style.opacity = '1';
+          label.style.visibility = 'visible';
+        }
+      });
+    });
+  }
 </script> 
