@@ -242,12 +242,15 @@ function handleFloatingLabels() {
     // Function to update label position based on input value
     function updateLabelPosition() {
       if (!label) return;
+      const labelElement = label as HTMLElement;
       if (inputElement.value.trim() !== '') {
-        label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
-        label.classList.add('-top-8', 'text-xs', 'text-fuchsia-200');
+        // Hide the label completely when field has content
+        labelElement.style.opacity = '0';
+        labelElement.style.visibility = 'hidden';
       } else {
-        label.classList.remove('-top-8', 'text-xs', 'text-fuchsia-200');
-        label.classList.add('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
+        // Show the label when field is empty
+        labelElement.style.opacity = '1';
+        labelElement.style.visibility = 'visible';
       }
     }
     
@@ -260,9 +263,11 @@ function handleFloatingLabels() {
     // Handle focus events
     inputElement.addEventListener('focus', function() {
       if (!label) return;
+      const labelElement = label as HTMLElement;
       if (this.value.trim() === '') {
-        label.classList.remove('peer-placeholder-shown:top-3', 'peer-placeholder-shown:text-base');
-        label.classList.add('-top-8', 'text-xs', 'text-fuchsia-200');
+        // Show label when focusing on empty field
+        labelElement.style.opacity = '1';
+        labelElement.style.visibility = 'visible';
       }
     });
     
