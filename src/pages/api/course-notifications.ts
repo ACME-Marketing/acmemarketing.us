@@ -1,6 +1,7 @@
+import type { APIRoute } from 'astro';
 import { supabase } from '../../lib/supabase.js';
 
-export async function GET({ request, url }) {
+export const GET: APIRoute = async ({ request, url }) => {
   const email = url.searchParams.get('email');
   
   if (!email) {
@@ -36,9 +37,9 @@ export async function GET({ request, url }) {
       headers: { 'Content-Type': 'application/json' }
     });
   }
-}
+};
 
-export async function POST({ request }) {
+export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
     const { email, first_name, last_name, company, notification_preferences } = body;
@@ -92,7 +93,7 @@ export async function POST({ request }) {
 
     // Optional: Send welcome email via n8n webhook
     try {
-      const webhookUrl = import.meta.env.N8N_WEBHOOK_URL;
+      const webhookUrl = (import.meta as any).env.N8N_WEBHOOK_URL;
       if (webhookUrl && data) {
         await fetch(webhookUrl + '/course-notification-signup', {
           method: 'POST',
@@ -127,4 +128,4 @@ export async function POST({ request }) {
       headers: { 'Content-Type': 'application/json' }
     });
   }
-} 
+}; 
