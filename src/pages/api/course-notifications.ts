@@ -1,6 +1,9 @@
 import type { APIRoute } from 'astro';
 import { createClient } from '@supabase/supabase-js';
 
+// Mark this as a server-rendered endpoint
+export const prerender = false;
+
 // Check if environment variables are available
 const supabaseUrl = (import.meta as any).env.PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = (import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY;
@@ -16,7 +19,7 @@ const supabase = supabaseUrl && supabaseAnonKey
 export const GET: APIRoute = async ({ request, url }) => {
   const email = url.searchParams.get('email');
   
-  if (!email) {
+  if (!email || email.trim() === '') {
     return new Response(JSON.stringify({ error: 'Email parameter is required' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' }
