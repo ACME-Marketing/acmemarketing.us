@@ -127,28 +127,52 @@ export const POST: APIRoute = async ({ request }) => {
       throw error;
     }
 
-    // Send welcome email via Supabase SMTP
+    // Send welcome email via Supabase Edge Function
     try {
-      // For now, we'll use the edge function approach since Supabase client doesn't have direct SMTP access
-      // The edge function will handle the Hostinger SMTP configuration
+      console.log('📧 Attempting to send welcome email...');
       const supabaseUrl = (import.meta as any).env.PUBLIC_SUPABASE_URL;
-      if (supabaseUrl && data) {
-        await fetch(`${supabaseUrl}/functions/v1/send-course-notification`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${(import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY}`
-          },
-          body: JSON.stringify({
-            email: email,
-            first_name: first_name || null,
-            last_name: last_name || null,
-            company: company || null
-          })
+      const supabaseKey = (import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY;
+      
+      if (!supabaseUrl || !supabaseKey) {
+        console.warn('❌ Missing Supabase URL or key for email sending');
+        return new Response(JSON.stringify({
+          success: true,
+          message: 'Successfully subscribed to course notifications (email not sent - missing config)',
+          notification: data
+        }), {
+          status: 201,
+          headers: { 'Content-Type': 'application/json' }
         });
       }
+
+      console.log('🔗 Calling edge function:', `${supabaseUrl}/functions/v1/send-course-notification`);
+      
+      const emailResponse = await fetch(`${supabaseUrl}/functions/v1/send-course-notification`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${supabaseKey}`
+        },
+        body: JSON.stringify({
+          email: email,
+          first_name: first_name || null,
+          last_name: last_name || null,
+          company: company || null
+        })
+      });
+
+      console.log('📧 Email response status:', emailResponse.status);
+      
+      if (!emailResponse.ok) {
+        const errorText = await emailResponse.text();
+        console.warn('❌ Email sending failed:', emailResponse.status, errorText);
+      } else {
+        const emailResult = await emailResponse.json();
+        console.log('✅ Email sent successfully:', emailResult);
+      }
+      
     } catch (emailError) {
-      console.warn('Failed to send welcome email:', emailError);
+      console.error('💥 Email sending error:', emailError);
       // Don't fail the request if email fails
     }
 

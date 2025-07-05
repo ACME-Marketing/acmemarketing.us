@@ -56,8 +56,18 @@ serve(async (req) => {
       `
     }
 
-    // Send email using your preferred service
-    // Example with Resend:
+    // For now, log the email data and return success
+    // TODO: Configure actual email service (Resend, SendGrid, etc.)
+    console.log('📧 Email data prepared:', {
+      to: email,
+      subject: emailData.subject,
+      from: emailData.from
+    })
+    
+    // Simulate email sending for now
+    // To enable actual email sending, uncomment one of the options below:
+    
+    // Option 1: Resend (recommended)
     /*
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -69,12 +79,32 @@ serve(async (req) => {
     })
     
     if (!response.ok) {
-      throw new Error('Failed to send email')
+      throw new Error('Failed to send email via Resend')
     }
     */
-
-    // For now, just log the email data (replace with actual email sending)
-    console.log('Email would be sent:', emailData)
+    
+    // Option 2: SendGrid
+    /*
+    const response = await fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${Deno.env.get('SENDGRID_API_KEY')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        personalizations: [{ to: [{ email: email }] }],
+        from: { email: emailData.from },
+        subject: emailData.subject,
+        content: [{ type: 'text/html', value: emailData.html }]
+      })
+    })
+    
+    if (!response.ok) {
+      throw new Error('Failed to send email via SendGrid')
+    }
+    */
+    
+    console.log('✅ Email would be sent (currently in simulation mode)')
 
     return new Response(
       JSON.stringify({ 
