@@ -1,5 +1,17 @@
 import type { APIRoute } from 'astro';
-import { supabase } from '../../lib/supabase.js';
+import { createClient } from '@supabase/supabase-js';
+
+// Check if environment variables are available
+const supabaseUrl = (import.meta as any).env.PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = (import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('Missing Supabase environment variables');
+}
+
+const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 export const GET: APIRoute = async ({ request, url }) => {
   const email = url.searchParams.get('email');
@@ -11,8 +23,17 @@ export const GET: APIRoute = async ({ request, url }) => {
     });
   }
 
+  if (!supabase) {
+    return new Response(JSON.stringify({ 
+      error: 'Database connection not configured. Please set SUPABASE_URL and SUPABASE_ANON_KEY environment variables.' 
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabase!
       .from('course_notifications')
       .select('*')
       .eq('email', email)
@@ -32,7 +53,10 @@ export const GET: APIRoute = async ({ request, url }) => {
     });
   } catch (error) {
     console.error('Error checking course notification status:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ 
+      error: 'Database error',
+      details: error.message 
+    }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -40,6 +64,15 @@ export const GET: APIRoute = async ({ request, url }) => {
 };
 
 export const POST: APIRoute = async ({ request }) => {
+  if (!supabase) {
+    return new Response(JSON.stringify({ 
+      error: 'Database connection not configured. Please set SUPABASE_URL and SUPABASE_ANON_KEY environment variables.' 
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
   try {
     const body = await request.json();
     const { email, first_name, last_name, company, notification_preferences } = body;
@@ -127,7 +160,10 @@ export const POST: APIRoute = async ({ request }) => {
 
   } catch (error) {
     console.error('Error subscribing to course notifications:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
+    return new Response(JSON.stringify({ 
+      error: 'Database error',
+      details: error.message 
+    }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
     });
