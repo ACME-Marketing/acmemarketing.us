@@ -1,132 +1,59 @@
-# Project Plan: Interlinked Marketing & SEO Ecosystem
+# Project Plan: AI Marketing Course Platform
 
 This document serves as the central source of truth for the project strategy, architecture, and progress.
 
 ## 1. High-Level Strategy
 
-The core strategy is a "Pillar and Niche" model to build a powerful, synergistic online presence and drive SEO authority to a central brand.
-
-- **Pillar Site:** The main brand, content hub, and primary call-to-action.
-- **Niche Sites:** Hyper-focused websites on specific sub-topics. They publish deep content and link *up* to the Pillar site to funnel authority.
-
-### Domain Roles:
-
-- **Pillar:** `acmemarketing.us` (The main marketing agency brand)
-- **Niche 1:** `bemorefree.com` (Marketing automation and efficiency for solopreneurs)
-- **Niche 2:** `bamteamservices.com` (Case studies and services for B2B marketing)
-- **Niche 3:** `disendarkenment.com` (Psychedelic Facilitation, psychedelic journey, psychedelic integration, executive journey support, future trends, thought leadership, 1-on-1 intensives, small group psychedelic journeys)
-- **Niche 4:** `mindlooker.com` (Uses deep inquiry to facilitate resolving unwanted personal conditions, 1-on-1 sessions)
-- **Niche 5:** `ketohouse.com` (Marketing for health & wellness brands, extra focus on Keto friendly, recipes, Keto House branded products)
-- **Niche 6:** `healthcareactivist.org` (Marketing for non-profits and advocacy groups, advocates for nursing unions, rants against big insurance, advocates for personal Case Managers, promotes own staff of Case Managers)
+The core strategy is to establish `acmemarketing.us` as a premier online destination for AI-powered marketing education. The previous "Pillar and Niche" model is deprecated. The new focus is on creating and selling high-quality online courses.
 
 ## 2. Technical Architecture
 
-- **Content Backend:** Headless WordPress
-- **Frontend Framework:** Astro (Static Site Generator)
+- **Backend:** Supabase (Postgres, Auth, Storage, Edge Functions)
+- **Frontend Framework:** Astro
 - **Deployment & Hosting:** Netlify
+- **Email/Notifications:** Supabase integrated with an SMTP service for transactional emails.
 - **Code Repository:** GitHub (ACME-Marketing Organization) - Local path: `/Users/waynesheppard/Development/ACME-Marketing/`
-- **Automation Hub:** n8n
 
 ## 3. Credentials & URLs
 
 - **GitHub Organization:** `https://github.com/ACME-Marketing`
-- **Headless CMS URL:** `https://cms.acmemarketing.us`
-- **CMS Login Path:** (You will set this with WPS Hide Login)
+- **Production Site:** `https://acmemarketing.us`
+- **Supabase Project:** (Details in `.env` file)
 
 ## 4. Project Task List
 
-### Phase 1: Infrastructure Setup (Complete)
+### Phase 1: Foundational Setup (Complete)
 
-- [x] Create GitHub account
-- [x] Create GitHub Organization: `ACME-Marketing`
-- [x] Set up Headless WordPress CMS on `cms.acmemarketing.us`
-- [x] Install & Configure WPGraphQL Plugin
-- [x] Install & Configure WPS Hide Login Plugin
-- [x] Set Permalinks in WordPress
-- [x] Create Pillar GitHub Repo: `acmemarketing.us`
-- [x] Create `GEMINI_PLAN.md`
+- [x] Create GitHub account & `ACME-Marketing` Organization
+- [x] Create `acmemarketing.us` GitHub Repo
 - [x] Create Netlify Account and connect to GitHub
 - [x] Develop initial Astro frontend for `acmemarketing.us`
-- [x] Integrate WordPress GraphQL API into `acmemarketing.us`
-- [x] Added `netlify.toml` for explicit build configuration to `acmemarketing.us`
+- [x] Added `netlify.toml` for explicit build configuration
 - [x] Point `acmemarketing.us` domain to Netlify
-- [x] Create GitHub Repo: `bemorefree.com`
-- [x] Create GitHub Repo: `bamteamservices.com`
-- [x] Create GitHub Repo: `disendarkenment.com`
-- [x] Create GitHub Repo: `mindlooker.com`
-- [x] Create GitHub Repo: `ketohouse.com`
-- [x] Create GitHub Repo: `healthcareactivist.org`
-- [x] Replicate Astro setup for `bemorefree.com`
-- [x] Integrate WordPress GraphQL API into `bemorefree.com`
-- [x] Replicate Astro setup for `bamteamservices.com`
-- [x] Integrate WordPress GraphQL API into `bamteamservices.com`
-- [x] Replicate Astro setup for `disendarkenment.com`
-- [x] Integrate WordPress GraphQL API into `disendarkenment.com`
-- [x] Replicate Astro setup for `mindlooker.com`
-- [x] Integrate WordPress GraphQL API into `mindlooker.com`
-- [x] Replicate Astro setup for `ketohouse.com`
-- [x] Integrate WordPress GraphQL API into `ketohouse.com`
-- [x] Replicate Astro setup for `healthcareactivist.org`
-- [x] Integrate WordPress GraphQL API into `healthcareactivist.org`
-- [x] Replicate Astro setup for all Niche sites
-- [x] Integrate WordPress GraphQL API into all Niche sites
-- [x] Point `bemorefree.com` domain to Netlify
-- [x] Point `bamteamservices.com` domain to Netlify
-- [x] Point `disendarkenment.com` domain to Netlify
-- [x] Point `mindlooker.com` domain to Netlify
-- [x] Point `ketohouse.com` domain to Netlify
-- [x] Point `healthcareactivist.org` domain to Netlify
 
-### Phase 2: Content & Automation (In Progress)
+### Phase 2: Supabase Backend & Course Features (In Progress)
 
-- [x] Verified WordPress content push (successful on `bemorefree.com`)
-- [x] Created categories in WordPress for each niche site
-- [x] n8n instance running at `https://n8n.srv874889.hstgr.cloud/`
-- [x] WordPress webhook successfully posting to n8n
-- [x] Developed n8n workflow for automated Netlify deployments
-- [x] Added basic layout and global styling to all sites
-- [x] Troubleshooting: Styling not fully visible on live sites; `global.css` and `index.astro` updated and pushed, local cache cleared, dependencies reinstalled. (Resolved)
+- [x] Set up Supabase project
+- [x] Create database schema for courses, episodes, enrollments, and user profiles (`create-supabase-tables.sql`)
+- [x] Create database schema for course notifications (`supabase-schema-course-notifications.sql`)
+- [x] Implement user authentication using Supabase Auth
+- [x] Create API endpoint for course notification sign-ups (`src/pages/api/course-notifications.ts`)
+- [x] Create frontend modal for course notification sign-ups (`src/components/CourseNotificationModal.astro`)
+- [x] Set up Supabase Edge Function to handle sending course notifications (`supabase/functions/send-course-notification/index.ts`)
+- [x] Create database triggers to automatically send emails on new sign-ups (`create_email_trigger.sql`, `create_email_trigger_simple.sql`)
+- [ ] Develop UI for displaying courses and course content
+- [ ] Implement payment processing for course enrollments (Stripe integration)
+- [ ] Build user dashboard for managing enrolled courses
+- [ ] Develop admin interface for managing courses and students
 
-### Frontend Development (acmemarketing.us)
+### Phase 3: Content & Marketing
 
-- [x] Implement new front page design (header, hero, 2-3 column blog layout).
-- [x] Implement individual blog post pages (`/posts/[...slug].astro`) with content, featured image, previous/next navigation, and sidebar.
-- [x] Implement standard footer block.
-- [x] Create "About" page with AI-focused content, new sections, and ebook CTA.
-- [x] Implement popup form for ebook CTA (first name, last name, email fields only).
-- [x] Create "Privacy" page (EU requirements) and link in footer.
-- [x] Ensure no tags/categories/slugs are displayed on any posts or cards.
-- [x] Make entire blog post cards clickable on homepage.
-- [x] Fix "Read More" button alignment on homepage blog cards (replaced with full card clickability).
-- [x] Fix featured image sizing on individual blog post pages.
-- [x] Fix missing post text on individual blog post pages.
-- [x] Fix duplicate footer on homepage.
+- [ ] Create content for initial set of courses
+- [ ] Develop marketing strategy to attract students
+- [ ] Implement analytics and tracking to measure performance
 
-- [ ] Develop n8n workflow for automated social sharing
-- [ ] Begin content creation based on the "Create Once, Repurpose Everywhere" model.
+## 5. Key Scripts & Tooling
 
-## 5. Testing Content Push (WordPress to Astro/Netlify)
-
-### The Content Flow:
-1.  **WordPress as the Content Hub:** `cms.acmemarketing.us` stores content.
-2.  **WPGraphQL as the API Layer:** Exposes WordPress content via `https://cms.acmemarketing.us/graphql`.
-3.  **Astro Fetches Content:** Astro sites query this endpoint during build.
-4.  **Static Site Generation:** Astro generates static HTML, CSS, JS.
-5.  **Netlify Deployment:** Triggered to rebuild and deploy new static files.
-
-### Test Procedure:
-1.  **Create a Test Post in WordPress:**
-    *   Go to your WordPress admin login: `https://cms.acmemarketing.us/[your-custom-login-path]/` (e.g., `/cortex/`).
-    *   Log in.
-    *   Go to **"Posts"** > **"Add New"**.
-    *   **Title:** `My First Headless Post`
-    *   **Content:** `This content is coming from my headless WordPress CMS!`
-    *   Click **"Publish"**.
-2.  **Manually Trigger Netlify Build:**
-    *   Go to your Netlify dashboard: [https://app.netlify.com](https://app.netlify.com)
-    *   Click on the `acmemarketing.us` site.
-    *   In the "Deploys" section, click the **"Trigger deploy"** dropdown.
-    *   Select **"Deploy site"** > **"Clear cache and deploy site"**.
-3.  **Verify on Live Site:**
-    *   Once the Netlify build shows "Published", visit your `acmemarketing.us` domain (or its Netlify temporary URL).
-    *   You should see "My First Headless Post" displayed on the homepage.
+- `check-database.js`: A script to quickly check the status of Supabase tables.
+- `cleanup-unused-files.js`: An interactive script to identify and remove unused files from the project.
+- `test-api.js`, `test-curl.sh`, `test-edge-function.js`, `test-email.js`, `test-smtp-options.js`: Various scripts for testing the API, edge functions, and email functionality.
