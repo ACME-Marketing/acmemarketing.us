@@ -2,16 +2,16 @@
 
 This guide will help you reset just the database tables without affecting your Supabase project.
 
-## Step 1: Run the Reset SQL
+## Step 1: Run the Corrected Reset SQL
 
 1. **Go to your Supabase Dashboard**
 2. **Navigate to the SQL Editor**
-3. **Copy and paste the entire contents of `supabase/migrations/002_reset_tables_only.sql`**
+3. **Copy and paste the entire contents of `supabase/migrations/003_fix_table_names.sql`**
 4. **Click "Run" to execute the script**
 
-That's it! This will:
-- Drop all existing course-related tables
-- Recreate them with the proper schema
+This will:
+- Drop ALL existing course-related tables (including the old `course_episodes` table)
+- Recreate them with the EXACT field names the code expects
 - Set up all triggers and functions
 - Add sample data
 - Configure RLS policies
@@ -43,20 +43,21 @@ supabase functions deploy send-course-notification
 2. **Test the notification form** - should save to database and trigger email
 3. **Check the logs** - should see the trigger working properly
 
-## What This Accomplishes
+## What This Fixes
 
-✅ **Clean tables** - No conflicting data or triggers
-✅ **Proper schema** - All tables with correct relationships
+✅ **Correct table names** - `course_episodes` instead of `episodes`
+✅ **Correct field names** - `is_active` instead of `enabled`
+✅ **Added missing fields** - `stripe_price_id` field
+✅ **Clean slate** - No conflicting data or triggers
 ✅ **Working triggers** - Email notifications will work automatically
 ✅ **Sample data** - Test courses and episodes included
 ✅ **RLS policies** - Proper security in place
-✅ **Indexes** - Optimized for performance
 
 ## Verification
 
 After completing the reset, you should see:
 - 3 sample courses in the courses table
-- 2 sample episodes in the episodes table
+- 2 sample episodes in the course_episodes table
 - Working email triggers when notifications are created
 - Proper RLS policies protecting data
 
