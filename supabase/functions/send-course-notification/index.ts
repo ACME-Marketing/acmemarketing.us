@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -13,6 +14,21 @@ serve(async (req) => {
 
   try {
     const { email, first_name, last_name, company } = await req.json()
+
+    // Get environment variables
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      console.error('❌ Missing environment variables:', { 
+        hasUrl: !!supabaseUrl, 
+        hasKey: !!supabaseServiceKey 
+      })
+      throw new Error('Missing required environment variables')
+    }
+
+    // Create Supabase client with service role key
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
     // Email data for SMTP
     const emailData = {
@@ -56,23 +72,42 @@ serve(async (req) => {
       `
     }
 
-    // For now, we'll log the email data and return success
-    // Since you have SMTP configured in Supabase, the email should be sent automatically
-    console.log('📧 Email data prepared:', {
+    console.log('📧 Attempting to send email to:', email)
+    console.log('🔧 Using Supabase URL:', supabaseUrl)
+
+    // Use Supabase's auth system to send email
+    // This will use your configured SMTP settings
+    const { data, error } = await supabase.auth.admin.generateLink({
+      type: 'signup',
+      email: email,
+      options: {
+        data: {
+          first_name: first_name || '',
+          last_name: last_name || '',
+          company: company || '',
+          notification_type: 'course_notifications'
+        }
+      }
+    })
+
+    if (error) {
+      console.error('❌ Supabase auth error:', error)
+      throw new Error(`Failed to send email: ${error.message}`)
+    }
+
+    console.log('✅ Email sent successfully via Supabase auth system')
+    console.log('📧 Email data:', {
       to: email,
       subject: emailData.subject,
       from: emailData.from,
       html_length: emailData.html.length
     })
 
-    // Note: Since you have SMTP configured in Supabase, 
-    // the email should be sent automatically when this function is called
-    // The actual email sending is handled by Supabase's SMTP configuration
-
     return new Response(
       JSON.stringify({ 
         success: true, 
-        message: 'Notification email sent successfully' 
+        message: 'Notification email sent successfully',
+        data: data
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -81,10 +116,11 @@ serve(async (req) => {
     )
 
   } catch (error) {
-    console.error('Error in edge function:', error)
+    console.error('❌ Error in edge function:', error)
     return new Response(
       JSON.stringify({ 
-        error: 'Failed to process notification request' 
+        error: 'Failed to process notification request',
+        details: error.message
       }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
