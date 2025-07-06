@@ -18,7 +18,7 @@ if (!supabaseUrl || !supabaseServiceKey) {
 
 async function testEdgeFunction() {
   try {
-    const testEmail = `test-edge-function-${Date.now()}@example.com`;
+    const testEmail = `wayne@bamteamservices.com`;
     
     console.log(`📧 Testing with email: ${testEmail}`);
     
