@@ -1,63 +1,107 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
 
-// Load environment variables manually
-const envContent = fs.readFileSync('.env', 'utf8');
-const envVars = {};
-envContent.split('\n').forEach(line => {
-  const [key, ...valueParts] = line.split('=');
-  if (key && !key.startsWith('#')) {
-    envVars[key.trim()] = valueParts.join('=').trim();
-  }
-});
+// Load environment variables
+dotenv.config();
 
-const supabaseUrl = envVars.PUBLIC_SUPABASE_URL;
-const supabaseKey = envVars.PUBLIC_SUPABASE_ANON_KEY;
-const serviceRoleKey = envVars.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-console.log('🧪 Testing Supabase Edge Function...\n');
+console.log('🧪 Testing edge function invocation...');
 
-if (!supabaseUrl || !supabaseKey || !serviceRoleKey) {
-  console.log('❌ Missing environment variables:');
-  console.log('   PUBLIC_SUPABASE_URL:', supabaseUrl ? '✅ Set' : '❌ Missing');
-  console.log('   PUBLIC_SUPABASE_ANON_KEY:', supabaseKey ? '✅ Set' : '❌ Missing');
-  console.log('   SUPABASE_SERVICE_ROLE_KEY:', serviceRoleKey ? '✅ Set' : '❌ Missing');
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('❌ Missing Supabase environment variables');
   process.exit(1);
 }
 
-console.log('✅ Environment variables found');
-console.log('🔗 Supabase URL:', supabaseUrl);
-console.log('🔑 Anon Key:', supabaseKey.substring(0, 20) + '...');
-console.log('🔑 Service Role Key:', serviceRoleKey.substring(0, 20) + '...');
-console.log('');
-
-// Test script to manually call the edge function
-const testData = {
-  email: 'test@example.com',
-  first_name: 'Test',
-  last_name: 'User',
-  company: 'Test Company'
-};
-
 async function testEdgeFunction() {
   try {
-    console.log('🧪 Testing edge function with data:', testData);
+    const testEmail = `test-edge-function-${Date.now()}@example.com`;
     
-    const response = await fetch(`${supabaseUrl}/functions/v1/send-course-notification`, {
+    console.log(`📧 Testing with email: ${testEmail}`);
+    
+    // Test 1: Call the edge function directly
+    console.log('\n🔧 Test 1: Calling edge function directly...');
+    
+    const edgeFunctionUrl = `${supabaseUrl}/functions/v1/send-course-notification`;
+    const response = await fetch(edgeFunctionUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${serviceRoleKey}`
+        'Authorization': `Bearer ${supabaseServiceKey}`
       },
-      body: JSON.stringify(testData)
+      body: JSON.stringify({
+        email: testEmail,
+        first_name: 'Test',
+        last_name: 'User',
+        company: 'Test Company'
+      })
     });
     
-    const result = await response.json();
-    console.log('✅ Edge function response:', result);
+    console.log(`📊 Response status: ${response.status}`);
+    console.log(`📊 Response status text: ${response.statusText}`);
+    
+    const responseText = await response.text();
+    console.log(`📊 Response body: ${responseText}`);
+    
+    if (response.ok) {
+      console.log('✅ Edge function call successful');
+    } else {
+      console.error('❌ Edge function call failed');
+    }
+    
+    // Test 2: Test through the API endpoint (simulate form submission)
+    console.log('\n🌐 Test 2: Testing through API endpoint...');
+    
+    const apiResponse = await fetch('http://localhost:4322/api/course-notifications', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: testEmail,
+        first_name: 'API Test',
+        last_name: 'User',
+        company: 'API Test Company'
+      })
+    });
+    
+    console.log(`📊 API Response status: ${apiResponse.status}`);
+    
+    const apiResponseText = await apiResponse.text();
+    console.log(`📊 API Response body: ${apiResponseText}`);
+    
+    if (apiResponse.ok) {
+      console.log('✅ API endpoint test successful');
+    } else {
+      console.error('❌ API endpoint test failed');
+    }
+    
+    // Clean up test data
+    console.log('\n🧹 Cleaning up test data...');
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    
+    const { error: deleteError } = await supabase
+      .from('course_notifications')
+      .delete()
+      .eq('email', testEmail);
+    
+    if (deleteError) {
+      console.error('⚠️ Cleanup error (non-critical):', deleteError);
+    } else {
+      console.log('✅ Test data cleaned up');
+    }
+    
+    console.log('\n🎉 Edge function testing complete!');
+    console.log('\n📋 Next steps:');
+    console.log('1. Check your email inbox for test messages');
+    console.log('2. Test the actual notification form on your website');
+    console.log('3. Monitor the browser console for API logs');
     
   } catch (error) {
-    console.error('❌ Error testing edge function:', error);
+    console.error('❌ Unexpected error:', error);
   }
 }
 

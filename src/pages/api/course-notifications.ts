@@ -129,7 +129,38 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     console.log('✅ Course notification subscription created:', data);
-    console.log('📧 Welcome email will be sent automatically via database trigger');
+    
+    // Call the edge function to send welcome email
+    try {
+      const edgeFunctionUrl = `${supabaseUrl}/functions/v1/send-course-notification`;
+      const serviceRoleKey = (import.meta as any).env.SUPABASE_SERVICE_ROLE_KEY;
+      
+      if (serviceRoleKey) {
+        const response = await fetch(edgeFunctionUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${serviceRoleKey}`
+          },
+          body: JSON.stringify({
+            email: data.email,
+            first_name: data.first_name || '',
+            last_name: data.last_name || '',
+            company: data.company || ''
+          })
+        });
+        
+        if (response.ok) {
+          console.log('📧 Welcome email sent successfully via edge function');
+        } else {
+          console.error('❌ Failed to send welcome email:', response.status, response.statusText);
+        }
+      } else {
+        console.warn('⚠️ Service role key not available, skipping email send');
+      }
+    } catch (emailError) {
+      console.error('❌ Error calling edge function:', emailError);
+    }
 
     return new Response(JSON.stringify({
       success: true,
