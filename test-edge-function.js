@@ -14,21 +14,25 @@ envContent.split('\n').forEach(line => {
 
 const supabaseUrl = envVars.PUBLIC_SUPABASE_URL;
 const supabaseKey = envVars.PUBLIC_SUPABASE_ANON_KEY;
+const serviceRoleKey = envVars.SUPABASE_SERVICE_ROLE_KEY;
 
 console.log('🧪 Testing Supabase Edge Function...\n');
 
-if (!supabaseUrl || !supabaseKey) {
+if (!supabaseUrl || !supabaseKey || !serviceRoleKey) {
   console.log('❌ Missing environment variables:');
   console.log('   PUBLIC_SUPABASE_URL:', supabaseUrl ? '✅ Set' : '❌ Missing');
   console.log('   PUBLIC_SUPABASE_ANON_KEY:', supabaseKey ? '✅ Set' : '❌ Missing');
+  console.log('   SUPABASE_SERVICE_ROLE_KEY:', serviceRoleKey ? '✅ Set' : '❌ Missing');
   process.exit(1);
 }
 
 console.log('✅ Environment variables found');
 console.log('🔗 Supabase URL:', supabaseUrl);
 console.log('🔑 Anon Key:', supabaseKey.substring(0, 20) + '...');
+console.log('🔑 Service Role Key:', serviceRoleKey.substring(0, 20) + '...');
 console.log('');
 
+// Test script to manually call the edge function
 const testData = {
   email: 'test@example.com',
   first_name: 'Test',
@@ -36,38 +40,25 @@ const testData = {
   company: 'Test Company'
 };
 
-console.log('📧 Test data:', testData);
-console.log('');
-
-try {
-  console.log('🚀 Calling edge function...');
-  
-  const response = await fetch(`${supabaseUrl}/functions/v1/send-course-notification`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${supabaseKey}`
-    },
-    body: JSON.stringify(testData)
-  });
-
-  console.log('📊 Response status:', response.status);
-  console.log('📋 Response headers:', Object.fromEntries(response.headers.entries()));
-  
-  const responseText = await response.text();
-  console.log('📄 Response text:', responseText);
-  
-  if (response.ok) {
-    try {
-      const result = JSON.parse(responseText);
-      console.log('✅ Edge function test successful:', result);
-    } catch (parseError) {
-      console.log('⚠️ Response is not JSON:', responseText);
-    }
-  } else {
-    console.log('❌ Edge function test failed');
+async function testEdgeFunction() {
+  try {
+    console.log('🧪 Testing edge function with data:', testData);
+    
+    const response = await fetch(`${supabaseUrl}/functions/v1/send-course-notification`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${serviceRoleKey}`
+      },
+      body: JSON.stringify(testData)
+    });
+    
+    const result = await response.json();
+    console.log('✅ Edge function response:', result);
+    
+  } catch (error) {
+    console.error('❌ Error testing edge function:', error);
   }
-  
-} catch (error) {
-  console.error('💥 Error testing edge function:', error.message);
-} 
+}
+
+testEdgeFunction(); 

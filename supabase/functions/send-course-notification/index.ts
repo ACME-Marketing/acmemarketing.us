@@ -12,7 +12,15 @@ serve(async (req) => {
   }
 
   try {
-    const { email, first_name, last_name, company } = await req.json()
+    // Log the raw request body for debugging
+    const rawBody = await req.text()
+    console.log('📧 Raw request body:', rawBody)
+    
+    // Parse the JSON
+    const body = JSON.parse(rawBody)
+    console.log('📧 Parsed body:', body)
+    
+    const { email, first_name, last_name, company } = body
 
     console.log('📧 Course notification request received:', {
       email,
