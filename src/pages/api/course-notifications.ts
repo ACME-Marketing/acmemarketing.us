@@ -107,6 +107,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Insert new notification subscription
+    // The database trigger will automatically send the welcome email
     const { data, error } = await supabase
       .from('course_notifications')
       .insert({
@@ -127,58 +128,12 @@ export const POST: APIRoute = async ({ request }) => {
       throw error;
     }
 
-    // Send welcome email via Supabase Edge Function
-    try {
-      console.log('📧 Attempting to send welcome email...');
-      const supabaseUrl = (import.meta as any).env.PUBLIC_SUPABASE_URL;
-      const supabaseKey = (import.meta as any).env.PUBLIC_SUPABASE_ANON_KEY;
-      
-      if (!supabaseUrl || !supabaseKey) {
-        console.warn('❌ Missing Supabase URL or key for email sending');
-        return new Response(JSON.stringify({
-          success: true,
-          message: 'Successfully subscribed to course notifications (email not sent - missing config)',
-          notification: data
-        }), {
-          status: 201,
-          headers: { 'Content-Type': 'application/json' }
-        });
-      }
-
-      console.log('🔗 Calling edge function:', `${supabaseUrl}/functions/v1/send-course-notification`);
-      
-      const emailResponse = await fetch(`${supabaseUrl}/functions/v1/send-course-notification`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabaseKey}`
-        },
-        body: JSON.stringify({
-          email: email,
-          first_name: first_name || null,
-          last_name: last_name || null,
-          company: company || null
-        })
-      });
-
-      console.log('📧 Email response status:', emailResponse.status);
-      
-      if (!emailResponse.ok) {
-        const errorText = await emailResponse.text();
-        console.warn('❌ Email sending failed:', emailResponse.status, errorText);
-      } else {
-        const emailResult = await emailResponse.json();
-        console.log('✅ Email sent successfully:', emailResult);
-      }
-      
-    } catch (emailError) {
-      console.error('💥 Email sending error:', emailError);
-      // Don't fail the request if email fails
-    }
+    console.log('✅ Course notification subscription created:', data);
+    console.log('📧 Welcome email will be sent automatically via database trigger');
 
     return new Response(JSON.stringify({
       success: true,
-      message: 'Successfully subscribed to course notifications',
+      message: 'Successfully subscribed to course notifications. Welcome email will be sent shortly.',
       notification: data
     }), {
       status: 201,
