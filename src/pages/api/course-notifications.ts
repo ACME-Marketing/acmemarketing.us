@@ -107,7 +107,6 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     // Insert new notification subscription
-    // The database trigger will automatically send the welcome email
     const { data, error } = await supabase
       .from('course_notifications')
       .insert({
@@ -129,49 +128,46 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     console.log('✅ Course notification subscription created:', data);
-    
-    // Call the edge function to send welcome email
+
+    // After successful insert, directly call the Edge Function to send the welcome email
     try {
       const edgeFunctionUrl = `${supabaseUrl}/functions/v1/send-course-notification`;
-      
-      // Try multiple ways to get the service role key
-      const serviceRoleKey = (import.meta as any).env.SUPABASE_SERVICE_ROLE_KEY || 
-                            (import.meta as any).env.PUBLIC_SUPABASE_SERVICE_ROLE_KEY ||
-                            process.env.SUPABASE_SERVICE_ROLE_KEY;
-      
-      console.log('🔍 Service role key available:', !!serviceRoleKey);
-      
-      if (serviceRoleKey) {
-        console.log('📧 Calling edge function...');
-        const response = await fetch(edgeFunctionUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${serviceRoleKey}`
-          },
-          body: JSON.stringify({
-            email: data.email,
-            first_name: data.first_name || '',
-            last_name: data.last_name || '',
-            company: data.company || ''
-          })
+      const serviceRoleKey = (import.meta as any).env.SUPABASE_SERVICE_ROLE_KEY;
+
+      if (!serviceRoleKey) {
+        console.error('❌ SUPABASE_SERVICE_ROLE_KEY is not set in the environment. Cannot send email.');
+        // Still return a success to the user, but log the error for admin
+        return new Response(JSON.stringify({
+          success: true,
+          message: 'Successfully subscribed, but welcome email could not be sent due to a configuration issue.',
+          notification: data
+        }), {
+          status: 201, // 201 Created
+          headers: { 'Content-Type': 'application/json' }
         });
-        
-        console.log('📊 Edge function response status:', response.status);
-        
-        if (response.ok) {
-          const responseText = await response.text();
-          console.log('📧 Welcome email sent successfully via edge function');
-          console.log('📊 Response:', responseText);
-        } else {
-          const errorText = await response.text();
-          console.error('❌ Failed to send welcome email:', response.status, response.statusText);
-          console.error('📊 Error response:', errorText);
-        }
-      } else {
-        console.warn('⚠️ Service role key not available, skipping email send');
-        console.log('🔍 Available env vars:', Object.keys((import.meta as any).env || {}));
       }
+
+      const response = await fetch(edgeFunctionUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${serviceRoleKey}`
+        },
+        body: JSON.stringify({
+          email: data.email,
+          first_name: data.first_name || '',
+          last_name: data.last_name || '',
+          company: data.company || ''
+        })
+      });
+
+      if (response.ok) {
+        console.log('📧 Welcome email sent successfully via edge function.');
+      } else {
+        const errorText = await response.text();
+        console.error('❌ Failed to send welcome email via edge function:', response.status, errorText);
+      }
+
     } catch (emailError) {
       console.error('❌ Error calling edge function:', emailError);
     }
