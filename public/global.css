@@ -2,110 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Example: Self-hosted Google Fonts Implementation */
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-Regular.woff2') format('woff2'),
-       url('/fonts/Roboto-Regular.woff') format('woff'),
-       url('/fonts/Roboto-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  font-preload: true;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: url('/fonts/Roboto-Bold.woff2') format('woff2'),
-       url('/fonts/Roboto-Bold.woff') format('woff'),
-       url('/fonts/Roboto-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  font-preload: true;
-}
-
-/* Your existing custom fonts */
-@font-face {
-  font-family: 'Brolink';
-  src: url('/fonts/Brolink DEMO.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-  font-preload: true;
-}
-
-/* Optimized Abastina font declaration */
-@font-face {
-  font-family: 'Abastina';
-  src: url('/fonts/abastina.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-  font-preload: true;
-}
-
-@font-face {
-  font-family: 'MrsSheppards';
-  src: url('/fonts/MrsSheppards-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Noto Sans Display Variable Font */
-@font-face {
-  font-family: 'Noto Sans Display';
-  src: url('/fonts/NotoSans-VariableFont_wdth,wght.ttf') format('truetype-variations');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-  font-preload: true;
-}
-
-/* Noto Sans Display Static Fonts (Fallback) */
-@font-face {
-  font-family: 'Noto Sans Display';
-  src: url('/fonts/static/NotoSans-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Noto Sans Display';
-  src: url('/fonts/static/NotoSans-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Noto Sans Display';
-  src: url('/fonts/static/NotoSans-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Font utility classes */
-.brolink-font {
-  font-family: 'Brolink', ui-sans-serif, system-ui, sans-serif;
-}
-
-.abastina-font {
-  font-family: 'Abastina', ui-sans-serif, system-ui, sans-serif;
-}
-
-.mrs-sheppards-font {
-  font-family: 'MrsSheppards', ui-sans-serif, system-ui, sans-serif;
-}
-
-.mrs-sheppards-regular {
-  font-family: "Mrs Sheppards", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* Noto Sans Display utility classes */
 .noto-sans-display-thin {
@@ -182,3 +79,4 @@
 .roboto-font {
   font-family: 'Roboto', ui-sans-serif, system-ui, sans-serif;
 }
+

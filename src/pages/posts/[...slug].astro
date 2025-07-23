@@ -6,6 +6,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { graphQLClient, gql } from '../../lib/graphql';
 import { getCta } from '../../lib/loadCtaData.js';
 
+export const prerender = true;
+
 // Function to process content and add target="_blank" to external links
 function processExternalLinks(content) {
   if (!content) return content;
