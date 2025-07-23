@@ -22,7 +22,7 @@ const definitelyUsed = new Set([
   'astro.config.mjs',
   'tailwind.config.js',
   'postcss.config.js',
-  'netlify.toml',
+  
   'README.md',
   '.gitignore',
   'src/env.d.ts',
@@ -51,7 +51,7 @@ const definitelyUnused = new Set([
   'GEMINI_PLAN.md',
   'CTA_Data - Sheet1.csv',
   'wordpress_webhook_snippet_final.php',
-  'WP_2_Netlify.json',
+  
   'backup_outer_project/',
   'tempstor/'
 ]);

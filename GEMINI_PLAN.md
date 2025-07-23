@@ -10,7 +10,7 @@ The core strategy is to establish `acmemarketing.us` as a premier online destina
 
 - **Backend:** Supabase (Postgres, Auth, Storage, Edge Functions)
 - **Frontend Framework:** Astro
-- **Deployment & Hosting:** Netlify
+- **Deployment & Hosting:** Render.com
 - **Email/Notifications:** Supabase integrated with an SMTP service for transactional emails.
 - **Code Repository:** GitHub (ACME-Marketing Organization) - Local path: `/Users/waynesheppard/Development/ACME-Marketing/`
 
@@ -26,10 +26,7 @@ The core strategy is to establish `acmemarketing.us` as a premier online destina
 
 - [x] Create GitHub account & `ACME-Marketing` Organization
 - [x] Create `acmemarketing.us` GitHub Repo
-- [x] Create Netlify Account and connect to GitHub
 - [x] Develop initial Astro frontend for `acmemarketing.us`
-- [x] Added `netlify.toml` for explicit build configuration
-- [x] Point `acmemarketing.us` domain to Netlify
 
 ### Phase 2: Supabase Backend & Course Features (In Progress)
 
