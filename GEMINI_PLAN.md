@@ -32,9 +32,9 @@ The core strategy is to establish `acmemarketing.us` as a premier online destina
 
 - [x] Set up Supabase project
 - [x] Create database schema for courses, episodes, enrollments, and user profiles (`create-supabase-tables.sql`)
-- [x] Create database schema for course notifications (`supabase-schema-course-notifications.sql`)
+
 - [x] Implement user authentication using Supabase Auth
-- [x] Create API endpoint for course notification sign-ups (`src/pages/api/course-notifications.ts`)
+
 - [x] Create frontend modal for course notification sign-ups (`src/components/CourseNotificationModal.astro`)
 - [x] Set up Supabase Edge Function to handle sending course notifications (`supabase/functions/send-course-notification/index.ts`)
 - [x] Create database triggers to automatically send emails on new sign-ups (`create_email_trigger.sql`, `create_email_trigger_simple.sql`)

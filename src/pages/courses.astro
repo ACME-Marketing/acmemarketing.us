@@ -1,66 +1,12 @@
 ---
+export const prerender = true;
 import BaseLayout from '../layouts/BaseLayout.astro';
-import CourseNotificationModal from '../components/CourseNotificationModal.astro';
-import { supabase } from '../lib/supabase.js';
+
 import { getCta } from '../lib/loadCtaData.js';
 
 const heroCta = getCta({ page: 'courses', location: 'hero' });
 
-// Type definitions
-interface CourseEpisode {
-  id: string;
-  title: string;
-  episode_number: number;
-  is_free: boolean;
-  description: string;
-}
-
-interface Course {
-  id: string;
-  title: string;
-  description: string;
-  price: number;
-  stripe_price_id: string;
-  is_active: boolean;
-  created_at: string;
-  course_episodes?: CourseEpisode[];
-}
-
-// Fetch courses from Supabase
-let courses: Course[] = [];
-try {
-  // First, let's fetch just the courses to see if the basic query works
-  const { data: coursesData, error: coursesError } = await supabase
-    .from('courses')
-    .select('*')
-    .eq('is_active', true)
-    .order('created_at', { ascending: false });
-
-  if (coursesError) {
-    console.error('Error fetching courses:', coursesError);
-  } else {
-    courses = coursesData || [];
-    console.log('Fetched courses:', courses.length, courses);
-    
-    // Now fetch episodes for each course separately
-    for (let course of courses) {
-      const { data: episodesData, error: episodesError } = await supabase
-        .from('course_episodes')
-        .select('id, title, episode_number, is_free, description')
-        .eq('course_id', course.id)
-        .order('episode_number', { ascending: true });
-      
-      if (episodesError) {
-        console.error(`Error fetching episodes for course ${course.id}:`, episodesError);
-        course.course_episodes = [];
-      } else {
-        course.course_episodes = episodesData || [];
-      }
-    }
-  }
-} catch (error) {
-  console.error('Error in courses page:', error);
-}
+let courses: any[] = []; // No courses fetched for static site
 ---
 
 <BaseLayout title="Courses - ACME Marketing">
@@ -214,82 +160,7 @@ try {
     </div>
   </section>
   
-  <!-- Include Course Notification Modal -->
-  <CourseNotificationModal />
+  
 </BaseLayout>
 
-<script>
-  import { supabase } from '../lib/supabase.js';
-
-  // Course enrollment function
-  async function enrollInCourse(courseId, stripePriceId, price) {
-    try {
-      // Check if user is authenticated
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        // Redirect to login/signup
-        window.location.href = '/auth?redirect=/courses';
-        return;
-      }
-
-      // Create Stripe checkout session via n8n
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          courseId,
-          stripePriceId,
-          price,
-          userId: user.id,
-          successUrl: `${window.location.origin}/courses/${courseId}?success=true`,
-          cancelUrl: `${window.location.origin}/courses?canceled=true`
-        })
-      });
-
-      const { url } = await response.json();
-      
-      if (url) {
-        window.location.href = url;
-      }
-    } catch (error) {
-      console.error('Error enrolling in course:', error);
-      alert('There was an error processing your enrollment. Please try again.');
-    }
-  }
-
-  // Add consultation modal buttons
-  document.addEventListener('DOMContentLoaded', function() {
-    const consultationButtons = [
-      'open-consultation-modal-courses',
-      'open-consultation-modal-courses-bottom'
-    ];
-
-    consultationButtons.forEach(buttonId => {
-      const button = document.getElementById(buttonId);
-      if (button) {
-        button.addEventListener('click', function() {
-          const modal = document.getElementById('consultation-form-modal');
-          const pageInput = document.getElementById('consultation-page-of-click') as HTMLInputElement;
-          if (modal && pageInput) {
-            pageInput.value = 'courses';
-            modal.classList.remove('hidden');
-          }
-        });
-      }
-    });
-
-    // Add course notification modal button
-    const notificationButton = document.getElementById('open-course-notification-modal');
-    if (notificationButton) {
-      notificationButton.addEventListener('click', function() {
-        const showModal = (window as any).showCourseNotificationModal;
-        if (showModal) {
-          showModal();
-        }
-      });
-    }
-  });
-</script> 
+ 

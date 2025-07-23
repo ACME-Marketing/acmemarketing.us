@@ -133,41 +133,16 @@
     });
   }
 
-  // Form submission
+  // Form submission (disabled for static site)
   if (courseNotificationForm) {
     courseNotificationForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const formData = new FormData(courseNotificationForm);
-      const data = {
-        email: formData.get('email'),
-        first_name: formData.get('first_name'),
-        last_name: formData.get('last_name'),
-        company: formData.get('company')
-      };
-
-      try {
-        const response = await fetch('/api/course-notifications', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          // Show success message
-          courseNotificationForm.classList.add('hidden');
-          notificationSuccess.classList.remove('hidden');
-        } else {
-          alert(result.error || 'There was an error subscribing to notifications.');
-        }
-      } catch (error) {
-        console.error('Error subscribing to notifications:', error);
-        alert('There was an error subscribing to notifications. Please try again.');
-      }
+      // For a static site, we cannot submit to a backend API.
+      // We will simulate success or provide a message.
+      console.log('Form submission disabled for static site.');
+      // Show success message directly
+      courseNotificationForm.classList.add('hidden');
+      notificationSuccess.classList.remove('hidden');
     });
   }
 

@@ -47,12 +47,7 @@ CREATE TRIGGER course_notification_email_trigger
     FOR EACH ROW EXECUTE FUNCTION trigger_course_notification_email();
 ```
 
-### 2. API Endpoint (Updated)
-The API endpoint (`src/pages/api/course-notifications.ts`) has been updated to:
-- Call the edge function directly after creating a notification
-- Use the service role key for authentication
-- Handle errors gracefully
-- Log success/failure of email sending
+
 
 ## How It Works Now
 

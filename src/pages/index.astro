@@ -7,6 +7,8 @@ import HomepagePosts from '../components/HomepagePosts.astro'
 import { graphQLClient, gql } from '../lib/graphql'
 import { getCta } from '../lib/loadCtaData.js'
 
+export const prerender = true;
+
 // GraphQL query for posts with tags "acmemarketing" or "all"
 const GET_POSTS = gql`
   query GetPosts {

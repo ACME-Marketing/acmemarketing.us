@@ -72,7 +72,7 @@ The current API is already configured to optionally use n8n webhooks. Just uncom
 
 ### 2. Test API Directly
 ```bash
-curl -X POST http://localhost:4322/api/course-notifications \
+
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com","first_name":"Test","last_name":"User"}'
 ```
@@ -101,5 +101,5 @@ RESEND_API_KEY=your-resend-key
 SENDGRID_API_KEY=your-sendgrid-key
 
 # For n8n (optional)
-N8N_WEBHOOK_URL=https://your-n8n-instance.com/webhook/course-notifications
+
 ``` 
